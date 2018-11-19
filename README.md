@@ -32,3 +32,6 @@ I love the `@property` statement. You magically get a setter: `[machine setTemp:
 
 ### 5. Designated Initialiser
 This code example shows `inheritance` and more specifically the `designated initialiser`.  That is the most important initialiser that each Object uses.  There are lots of cases where people can initialise an object incorrectly that must be addressed with code.
+
+### 6. Blocks
+In my own mind `blocks` are close cousins of `closure` and `function pointers`.  With Objective-C `Blocks` you can pass around code as you would pass around data.  The syntax is horrible to use.  But you can use a `typedef` to make the declaration of a `Block` simpler.˜
