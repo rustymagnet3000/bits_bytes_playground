@@ -35,3 +35,6 @@ This code example shows `inheritance` and more specifically the `designated init
 
 ### 6. Blocks
 In my own mind `blocks` are close cousins of `closure` and `function pointers`.  With Objective-C `Blocks` you can pass around code as you would pass around data.  The syntax is horrible to use.  But you can use a `typedef` to make the declaration of a `Block` simpler.˜
+
+### 6. Blocks with lldb
+Examples of writing Objective-C `Blocks` and calling them with `lldb`.  
