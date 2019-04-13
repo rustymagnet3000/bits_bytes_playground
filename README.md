@@ -34,7 +34,21 @@ I love the `@property` statement. You magically get a setter: `[machine setTemp:
 This code example shows `inheritance` and more specifically the `designated initialiser`.  That is the most important initialiser that each Object uses.  There are lots of cases where people can initialise an object incorrectly that must be addressed with code.
 
 ### 6. Blocks
-In my own mind `blocks` are close cousins of `closure` and `function pointers`.  With Objective-C `Blocks` you can pass around code as you would pass around data.  The syntax is horrible to use.  But you can use a `typedef` to make the declaration of a `Block` simpler.˜
+In my own mind `blocks` are close cousins of `closure` and `function pointers`.  With Objective-C `Blocks` you can pass around code as you would pass around data.  The syntax is horrible to use.  But you can use a `typedef` to make the declaration of a `Block` simpler.
 
-### 6. Blocks with lldb
+### 7. Use a debugger to invoke Blocks
 Examples of writing Objective-C `Blocks` and calling them with `lldb`.  
+
+### 8. C++ Namespace
+A nice feature of C++ compared to Objective-C. You could set a C++ Namespace to ensure your class declaration never conflicted with any definitions that may have the same class name.
+
+### 9. C++ Stack vs Heap
+Objective-C is all Heap.  Only Blocks are the on the Stack.  By contrast, C++ gave you full control over declaring an Object as from the Heap or the Stack.
+
+### 10. C++ Constructor & Destructor
+I liked the `C++ Constructor` for the busy, forgetful developer who would forget to write an `init` statement in Objective-C and would be dealing with an empty object.  I struggled at first to understand why the compiler forced you to have a Public Constructor & Destructor.  But it made sense after reading these articles:
+```
+https://stackoverflow.com/questions/4920277/private-destructor
+https://stackoverflow.com/questions/18546035/use-of-public-destructor-when-the-constructor-is-private/18546179#18546179
+```
+This example code also used `inline` functions to help the compiler.
