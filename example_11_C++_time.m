@@ -1,0 +1,32 @@
+#include <iostream>
+#include <ctime>
+
+using namespace std;
+
+class YDTime {
+    private:
+        struct tm *lcl_time;
+        double seconds;
+        time_t start;
+    public:
+        YDTime(void);
+        ~YDTime(void);
+};
+
+inline YDTime::YDTime(void)
+{
+    time(&start); seconds = 0.0;
+    cout << "[+] " << ctime(&start) << '\n';
+}
+
+inline YDTime::~YDTime(void)
+{
+    seconds = difftime(time(NULL), start);
+    cout << "[+] Time to complete: " << seconds << " seconds \n";
+}
+
+int main() {
+    
+    class YDTime mytime;
+    return 0;
+}
