@@ -46,9 +46,18 @@ A nice feature of C++ compared to Objective-C. You could set a C++ Namespace to 
 Objective-C is all Heap.  Only Blocks are the on the Stack.  By contrast, C++ gave you full control over declaring an Object as from the Heap or the Stack.
 
 ### 10. C++ Constructor & Destructor
-I liked the `C++ Constructor` for the busy, forgetful developer who would forget to write an `init` statement in Objective-C and would be dealing with an empty object.  I struggled at first to understand why the compiler forced you to have a Public Constructor & Destructor.  But it made sense after reading these articles:
+Compared to Objective-C, I liked the `C++ Constructor` for the busy, forgetful developer.  I struggled at first to understand why the compiler forced you to have a Public Constructor & Destructor.  But it made sense after reading these articles:
 ```
 https://stackoverflow.com/questions/4920277/private-destructor
 https://stackoverflow.com/questions/18546035/use-of-public-destructor-when-the-constructor-is-private/18546179#18546179
 ```
 This example code also used `inline` functions to help the compiler.
+
+### 11. C++ Time APIs
+I spent a lot of time coding `time` related APIs in C.  In turned out, I forgot Computer Science lesson 1; _re-use_.  I moved to using `difftime` instead of subtracting `Start - End` time.  There was also a bigger C++ lesson in terms of setting a member variable to a `const`.  This was not really possible, when I wanted to create the entire object with `class YDTime mytime;`.  By design I did not want: `class YDTime mytime(local_time);`
+```
+https://stackoverflow.com/questions/13855890/what-is-the-difference-between-difftime-and
+https://stackoverflow.com/questions/14495536/how-to-initialize-const-member-variable-in-a-class
+```
+### 12. C++ Encapsulation
+http://cis1.towson.edu/~cyber4all/modules/nanomodules/Encapsulation-CS2_C++.html
