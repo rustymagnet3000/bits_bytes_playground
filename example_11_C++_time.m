@@ -5,7 +5,6 @@ using namespace std;
 
 class YDTime {
     private:
-        struct tm *lcl_time;
         double seconds;
         time_t start;
     public:
@@ -15,8 +14,9 @@ class YDTime {
 
 inline YDTime::YDTime(void)
 {
-    time(&start); seconds = 0.0;
-    cout << "[+] " << ctime(&start) << '\n';
+    time(&start); 
+    seconds = 0.0;
+    cout << "[+] " << ctime(&start);
 }
 
 inline YDTime::~YDTime(void)
