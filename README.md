@@ -1,4 +1,4 @@
-# Playground for Objective C
+# Objective C and C++ Playground
 
 ### 0. A simple Class
 This Objective-C Class was written to show the following:
@@ -54,10 +54,13 @@ https://stackoverflow.com/questions/18546035/use-of-public-destructor-when-the-c
 This example code also used `inline` functions to help the compiler.
 
 ### 11. C++ Time APIs
-I spent a lot of time coding `time` related APIs in C.  In turned out, I forgot Computer Science lesson 1; _re-use_.  I moved to using `difftime` instead of subtracting `Start - End` time.  There was also a bigger C++ lesson in terms of setting a member variable to a `const`.  This was not really possible, when I wanted to create the entire object with `class YDTime mytime;`.  By design I did not want: `class YDTime mytime(local_time);`
+I spent a lot of time coding `time` related APIs in C.  In turned out, I forgot Computer Science lesson 1; _re-use_.  I moved to using `difftime` instead of subtracting `Start - End` time.  I used `ctime` instead of creating my own `char buffer` to print a beautiful time and date.  There was also a C++ lesson in terms of setting a member variable to a `const`.  This was not really possible, when I wanted to create the entire object with `class YDTime mytime;`.  By design I did not want: `class YDTime mytime(local_time);`
 ```
 https://stackoverflow.com/questions/13855890/what-is-the-difference-between-difftime-and
 https://stackoverflow.com/questions/14495536/how-to-initialize-const-member-variable-in-a-class
 ```
 ### 12. C++ Encapsulation
-http://cis1.towson.edu/~cyber4all/modules/nanomodules/Encapsulation-CS2_C++.html
+`Encapsulation` was a major building block of OOP.  It was commonly used to stop _undefined_ behaviour if your Classes were consumed by another developer.  The developer did not have direct line of sight to `private member variables` or `private member functions`. You forced developers to use _getters_ to access values and _setters_.  The latter allowed you to sanitise inputted data.  I loved `Encapsulation` to force compile time errors, when people tried to access `private` values they should not access.  But at run-time, you had access to all `private` data.  With a well-placed `breakpoint` and debugger, you had the `pointer` to the `Class` object and could bypass all of the `getters` and `setters`.  There was a healthy debate about this topic here:
+```
+https://stackoverflow.com/questions/424104/can-i-access-private-members-from-outside-the-class-without-using-friends
+```
