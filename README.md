@@ -64,3 +64,6 @@ https://stackoverflow.com/questions/14495536/how-to-initialize-const-member-vari
 ```
 https://stackoverflow.com/questions/424104/can-i-access-private-members-from-outside-the-class-without-using-friends
 ```
+
+### 13. ObjC NSString and isKindOfClass
+I wrote this code after answering a question on https://github.com/frida/frida/issues/607.  I tried playing with `NSString` and found on macOS that the platform made optimization decisions that would break Frida hooks placed on the Objective-C method names.  When asking for an NSString, the compiler never actually gave me a pure `NSString`.  I was always given a subclass by `macOS`.  The `isKindOfClass`, `[str1 superclass]` and `[str1 class]` were really useful to find out the reality.
