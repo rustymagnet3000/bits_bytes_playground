@@ -1,5 +1,4 @@
-# Objective C and C++ Playground
-
+# ObjC, C++ and C Playground
 ### 0. A simple Class
 This Objective-C Class was written to show the following:
 
@@ -64,6 +63,8 @@ https://stackoverflow.com/questions/14495536/how-to-initialize-const-member-vari
 ```
 https://stackoverflow.com/questions/424104/can-i-access-private-members-from-outside-the-class-without-using-friends
 ```
-
 ### 13. ObjC NSString and isKindOfClass
 I wrote this code after answering a question on https://github.com/frida/frida/issues/607.  I tried playing with `NSString` and found on macOS that the platform made optimization decisions that would break Frida hooks placed on the Objective-C method names.  When asking for an NSString, the compiler never actually gave me a pure `NSString`.  I was always given a subclass by `macOS`.  The `isKindOfClass`, `[str1 superclass]` and `[str1 class]` were really useful to find out the reality.
+
+### 14. Structs
+This example covered `Structs` and how C offered the flexibility to init on the `heap` (with `malloc`,  and `calloc`) or `stack`  and simple techniques to initialise a `struct`.  This included using a `char buffer` with `memcpy` and `memset`.
