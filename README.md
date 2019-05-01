@@ -1,14 +1,14 @@
 # ObjC, C++ and C Playground
 ### 0. A simple Class
-This Objective-C Class was written to show the following:
+This Objective-C Class showed:
 
 - An `NSMutableArray`
-- If you try and re-use the stock1 Object, it will fail. `NSMutableArray` uses a pointer to an Object
 - The underscore syntax for instance variables
 - `@property` is a great way to `set/get` instance variables
-- The syntax inside the Public API declaration
 
-_Separating ivars from properties_ is from this article https://useyourloaf.com/blog/understanding-your-objective-c-self/
+The code was partly inspired by the article _Separating ivars from properties_ [here][82068adb].
+
+  [82068adb]: https://useyourloaf.com/blog/understanding-your-objective-c-self/ "Objective_c_naming"
 
 ### 1. Simple synchronous request
 Implemented `NSURLSessionDataTask` to send a HTTP request from the command line.
@@ -68,3 +68,26 @@ I wrote this code after answering a question on https://github.com/frida/frida/i
 
 ### 14. Structs
 This example covered `Structs` and how C offered the flexibility to init on the `heap` (with `malloc`,  and `calloc`) or `stack`  and simple techniques to initialise a `struct`.  This included using a `char buffer` with `memcpy` and `memset`.
+
+### 15. Swizzling
+Apple [said][4522c6ad]:
+
+  [4522c6ad]: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008048-CH1-SW1 "Apple"
+
+> The Objective-C language defers as many decisions as it can from compile time and link time to runtime. Whenever possible, it does things dynamically. This means that the language requires not just a compiler, but also a runtime system to execute the compiled code.
+
+Swizzling used native Objective-C APIs to modify the `dispatch table`.  This  modified `code flow` when the app was running [ long after `compile` and `link` time ].  What an amazing feature of Objective-C.
+
+When Swizzling, I had to reset my brain for the following code:
+```
+- (BOOL)fakeNameCheck
+{
+    BOOL result = [self fakeNameCheck];
+    NSLog(@"[+] 🍭 swizzled. Orignal retval: %@", result ? @"YES" : @"NO");
+    return TRUE;
+}
+```
+It looked like a `recursive loop` that would cause a crash.  Actually, `[self fakeNameCheck];` now pointed to the original "clean" function.  This was done when you used the Objc API `method_exchangeImplementations(original, replacement);`.
+
+### 16. Class introspection
+The example code expanded on Objective-C's runtime. It showed how to call a `@selector` via `objc_msgSend`.  It also showed the `Class` and `Method` types and the `class_getSuperclass`, `class_getInstanceMethod` and `respondsToSelector` functions.

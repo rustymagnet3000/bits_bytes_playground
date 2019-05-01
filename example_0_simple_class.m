@@ -41,9 +41,10 @@ int main(int argc, const char * argv[]) {
         stock1.numberOfShares = 10;
         [stockList addObject:stock1];
 
-        stock2.purchaseSharePrice = 3;
-        stock2.currentSharePrice = 4;
-        stock2.numberOfShares = 5;
+        // Pragma mark: auto generated Selectors!
+        [stock2 setPurchaseSharePrice:3];
+        [stock2 setCurrentSharePrice:4];
+        [stock2 setNumberOfShares:5];
         [stockList addObject:stock2];
 
 
