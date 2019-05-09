@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #include <objc/message.h>
 
-
 @interface YDGoT : NSObject
 {
     NSString *_shareHolder;

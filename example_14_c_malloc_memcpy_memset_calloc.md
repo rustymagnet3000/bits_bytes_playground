@@ -45,7 +45,7 @@ int main() {
     YDAnimal *fire_ant; // no malloc for this pointer
     bullet_ant.name = "Fred";
 
-    // memcpy && memset
+    // memcpy && memset. Easy to break; the brackets around (char *) are mandatory
     memset(buffer, 0, BUFFER_SIZE);
     memcpy(buffer+ANIMAL_OFFSET, &army_ant, sizeof(YDAnimal));
     fire_ant = (YDAnimal*)(buffer + ANIMAL_OFFSET);
