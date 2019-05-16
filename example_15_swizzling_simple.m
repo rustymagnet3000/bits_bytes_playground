@@ -1,77 +1,70 @@
 #import <Foundation/Foundation.h>
-#include <objc/message.h>
+#import <objc/message.h>
 
-@interface YDGoT : NSObject
-{
-    NSString *_shareHolder;
-}
+@interface YDHelloClass : NSObject
 
-- (id)initWithName:(NSString *)name;
-- (BOOL)nameCheck;
+-(NSInteger) getRandomNumber;
 
-@property NSString *shareHolder;
 @end
 
-@implementation YDGoT
+@implementation YDHelloClass
 
-- (id)initWithName:(NSString *)name
+-(NSInteger) getRandomNumber
 {
-    _shareHolder = name;
-    return self;
+    return arc4random_uniform(10000);
 }
 
-- (BOOL)nameCheck
+@end
+
+@interface YDGoodbyeClass: NSObject
+- (NSInteger)fakeRandomNumber;
+@end
+
+@implementation YDGoodbyeClass
+
+- (NSInteger)fakeRandomNumber
 {
-    if ([_shareHolder  isEqual: @"Jon Snow"]){
-        return TRUE;
-    } else {
-        return FALSE;
+    YDGoodbyeClass *goodbye = [[YDGoodbyeClass alloc] init];
+    NSInteger retval = 42;
+    if ([goodbye respondsToSelector:@selector(fakeRandomNumber)]) {
+        NSInteger result = [goodbye fakeRandomNumber];
+        NSLog(@"\n[+] 🍭 swizzled.Original retval: %ld \n[+] 🍭 New retval: %ld", result, retval);
+    }
+    else {
+        NSLog(@"[+] 🍭 swizzled.");
+    }
+
+    return retval;
+}
+
++ (void)load
+{
+    Class orignalClass = objc_getClass("YDHelloClass");
+
+    if (orignalClass != nil) {
+        NSLog(@"\n[+] 🎣 Found YDHelloClass\n[+] 🎣 Placing hook on getRandomNumber\n");
+        Method original, swizzled;
+        original = class_getInstanceMethod(orignalClass, @selector(getRandomNumber));
+        swizzled = class_getInstanceMethod(self, @selector(fakeRandomNumber));
+        if(original != nil && swizzled != nil)
+            method_exchangeImplementations(original, swizzled);
     }
 }
 
-@synthesize shareHolder = _shareHolder;
 @end
-
-@interface YDGoT (Winterfell)
-- (BOOL)fakeNameCheck;
-@end
-
-@implementation YDGoT (Winterfell)
-
-- (BOOL)fakeNameCheck
-{
-    BOOL result = [self fakeNameCheck];
-    NSLog(@"[+] 🍭 swizzled. Orignal retval: %@", result ? @"YES" : @"NO");
-    return TRUE;
-}
-@end
-
 
 int main() {
     @autoreleasepool {
-
-        YDGoT *gotPerson = [[YDGoT alloc] initWithName:@"Jon Snow"];
-
-        NSLog(@"[+]Is %@ Warden of the North? %@", [gotPerson shareHolder], [gotPerson nameCheck] ? @"YES" : @"NO");
-
-        Class myClass = [gotPerson class];
-        SEL nameSel = @selector(nameCheck);
-        SEL fakeNameSel = @selector(fakeNameCheck);
-
-        Method original = class_getInstanceMethod(myClass, nameSel);
-        Method replacement = class_getInstanceMethod(myClass, fakeNameSel);
-
-        method_exchangeImplementations(original, replacement);
-
-        objc_msgSend(gotPerson, @selector(initWithName:),@"Tyrion Lannister");
-        NSLog(@"[+]Is %@ Warden of the North? %@", [gotPerson shareHolder], [gotPerson nameCheck] ? @"YES" : @"NO");
+        YDHelloClass *hello = [[YDHelloClass alloc] init];
+        [hello getRandomNumber];
     }
     return 0;
 }
 
+
 /*
-[+]Is Jon Snow Warden of the North? YES
-[+] 🍭 swizzled. Orignal retval: NO
-[+]Is Tyrion Lannister Warden of the North? YES
-Program ended with exit code: 0
-*/
+ [+] 🎣 Found YDHelloClass
+ [+] 🎣 Placing hook on getRandomNumber
+ [+] 🍭 swizzled.Original retval: 7966
+ [+] 🍭 New retval: 42
+ */
