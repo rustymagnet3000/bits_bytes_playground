@@ -6,7 +6,6 @@
 @end
 
 @implementation YDHelloClass
-
 +(void) sayStaticHello
 {
     puts("[+]\"hello\" from a Class function.");
@@ -59,7 +58,7 @@ int main() {
 
 
 /*
- 
+
  [+]🍭 Swizzle started..
  [+]🍭 Attempting class_addMethod  ..
  [+]🍭 class_addMethod success.
