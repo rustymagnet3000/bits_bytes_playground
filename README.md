@@ -42,7 +42,7 @@ Examples of writing Objective-C `Blocks` and calling them with `lldb`.
 A nice feature of C++ compared to Objective-C. You could set a C++ Namespace to ensure your class declaration never conflicted with any definitions that may have the same class name.
 
 ### 9. C++ Stack vs Heap
-Objective-C is all Heap.  Only Blocks are the on the Stack.  By contrast, C++ gave you full control over declaring an Object as from the Heap or the Stack.
+Objective-C is all `Heap`.  Only Blocks are on the `Stack`.  By contrast, C++ gave you full control over declaring an Object on the `Heap` or the `Stack`.
 
 ### 10. C++ Constructor & Destructor
 Compared to Objective-C, I liked the `C++ Constructor` for the busy, forgetful developer.  I struggled at first to understand why the compiler forced you to have a Public Constructor & Destructor.  But it made sense after reading these articles:
@@ -91,3 +91,12 @@ It looked like a `recursive loop` that would cause a crash.  Actually, `[self fa
 
 ### 16. Class introspection
 The example code expanded on Objective-C's runtime. It showed how to call a `@selector` via `objc_msgSend`.  It also showed the `Class` and `Method` types and the `class_getSuperclass`, `class_getInstanceMethod` and `respondsToSelector` functions.
+
+### 17. Threading in C with PThreads
+I enjoyed writing this code; I started two background threads.  Both printed a message to logs.  The goal was to use a debugger to `suspend thread`. But I ended up also trying to `kill thread`.
+
+### 18. Threading in ObjC with NSOperationQueue
+ObjC had so many APIs available for `multi-threaded` apps.  I started with `NSOperationQueue`.
+
+### 19. Threading in ObjC with GCD and Semaphores
+This was a challenging piece of code.  I used `Semaphores` to make sure code waited for background threads to complete. I called a `Block` on each thread with a custom `Object`.
