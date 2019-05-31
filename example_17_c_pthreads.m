@@ -6,7 +6,7 @@
 /*********************************************************************************
  Start two background threads.
  Both print a message to logs.
- Goal: pause a single thread why the other thread continues
+ Goal: pause / exit the calling thread why the other thread continues
  *********************************************************************************/
 const unsigned int microseconds = 10;
 
@@ -48,5 +48,32 @@ int main() {
 
     free(shark);
     free(jellyfish);
+    shark = NULL;
+    jellyfish = NULL;
+
     return 0;
 }
+
+/*
+[+] ORIGINAL
+ Thread ID: dec:40712 hex: 0x009f08
+ Thread ID: dec:40713 hex: 0x009f09
+ shark: 0
+ jelly: 0
+ shark: 1
+ jelly: 1
+ shark: 2
+ jelly: 2
+ shark: 3
+ jelly: 3
+ shark: 4
+ jelly: 4
+
+ [+] GOAL
+ jelly: 0
+ jelly: 1
+ jelly: 2
+ jelly: 3
+ jelly: 4
+
+ */
