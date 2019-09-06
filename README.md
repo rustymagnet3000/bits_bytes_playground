@@ -89,6 +89,11 @@ When Swizzling, I had to reset my brain for the following code:
 ```
 It looked like a `recursive loop` that would cause a crash.  Actually, `[self fakeNameCheck];` now pointed to the original "clean" function.  This was done when you used the Objc API `method_exchangeImplementations(original, replacement);`.
 
+```
+References:
+// https://pilky.me/dynamic-tips-tricks-with-objective-c/
+// https://mikeash.com/tmp/Runtime%20API%20Tour.pdf
+```
 ### 16. Class introspection
 The example code expanded on Objective-C's runtime. It showed how to call a `@selector` via `objc_msgSend`.  It also showed the `Class` and `Method` types and the `class_getSuperclass`, `class_getInstanceMethod` and `respondsToSelector` functions.
 
@@ -98,5 +103,18 @@ I enjoyed writing this code; I started two background threads.  Both printed a m
 ### 18. Threading in ObjC with NSOperationQueue
 ObjC had so many APIs available for `multi-threaded` apps.  I started with `NSOperationQueue`.
 
-### 19. Threading in ObjC with GCD and Semaphores
-This was a challenging piece of code.  I used `Semaphores` to make sure code waited for background threads to complete. I called a `Block` on each thread with a custom `Object`.
+### 19. Threading in ObjC with GCD, NSLock and Semaphores
+I used `Semaphores` to make sure code waited for background threads to complete. I called a `Block` on each thread with a custom `Object`. I hit an error which related to `NSMutableArray` not being `thread-safe`.
+```
+malloc: Double free of object
+malloc: *** set a breakpoint in malloc_error_break to debug
+```
+I used an `NSLock` to stop it crashing:
+```
+  [arrayLock lock]; // NSMutableArray isn't thread-safe
+  [fishyArray addObject:[fishObj name]];
+  [arrayLock unlock];
+```
+
+### 21. C++ Linked List
+I really enjoyed writing this C++ code.  If you have burned hours saying "I don't know how big to make my array. It depends on the file that is read in, when the app runs".  Linked-Lists are a thing of wonder.  Insert and delete where we want!  It can hold collection of unordered linked elements.  But, it is so easy to break; you have to spend time on the `Orders of Operations`.  Easy to create unexpected behaviour in your list.
