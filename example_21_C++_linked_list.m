@@ -38,12 +38,12 @@ public:
         if (node_to_delete == head) {                   // Deleting item at Head of list
             if (head->next == NULL){                    // Only a single item in Linked List
                 head = NULL;
-                node_to_delete->~YDNode();
+                delete node_to_delete;
                 return;
             }
             else {                                      // Deleting Head but N items in list
                 head = head->next;
-                node_to_delete->~YDNode();
+                delete node_to_delete;
                 return;
             }
         }
@@ -54,7 +54,7 @@ public:
             {
                 cout << "Found node to delete: \t" << node_to_delete->name << "\n";
                 node->next = node_to_delete->next;
-                node_to_delete->~YDNode();
+                delete node_to_delete;
                 return;
             }
             node = node->next;
@@ -97,14 +97,15 @@ inline YDNode::YDNode(string name, YDNode *previous_node)
 int main(int argc, const char * argv[]) {
 
     /* add to Head */
-    YDNode node_a = YDNode("Wandering");
-    YDNode node_b = YDNode("Wolf");
-    YDNode node_c = YDNode("Camel");
+    YDNode *node_a = new YDNode("Wandering");
+    YDNode *node_b = new YDNode("Wolf");
+    YDNode *node_c = new YDNode("Camel");
 
     /* Insert after */
-    YDNode node_d = YDNode("Red back", &node_c);
-    YDNode node_e = YDNode("Shelob", &node_c);
-    YDNode node_f = YDNode("Harvestman", &node_e);
+    YDNode *node_d = new YDNode("Red back", node_c);
+    YDNode *node_e = new YDNode("Shelob", node_c);
+    YDNode *node_f = new YDNode("Harvestman", node_e);
+    YDNode *node_z = new YDNode("odd", node_f);
 
     /* Pretty Print */
     YDNode::prettyPrint();
@@ -115,16 +116,16 @@ int main(int argc, const char * argv[]) {
     YDNode::findValue("dog");
 
     /* Delete and Print */
-    YDNode::deleteNode(&node_b);
-    YDNode::deleteNode(&node_a);
+    YDNode::deleteNode(node_b);
+    YDNode::deleteNode(node_c);
 
     YDNode::prettyPrint();
-    YDNode::deleteNode(&node_d); // tail
+    YDNode::deleteNode(node_d); // tail
     YDNode::prettyPrint();
-    YDNode::deleteNode(&node_c); // head
+    YDNode::deleteNode(node_a); // head
     YDNode::prettyPrint();
-    YDNode::deleteNode(&node_e); // head
-    YDNode::deleteNode(&node_f); // head
+    YDNode::deleteNode(node_e); // head
+    YDNode::deleteNode(node_f); // head
     YDNode::prettyPrint();
     return 0;
 

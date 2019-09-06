@@ -117,4 +117,4 @@ I used an `NSLock` to stop it crashing:
 ```
 
 ### 21. C++ Linked List
-I really enjoyed writing this C++ code.  If you have burned hours saying "I don't know how big to make my array. It depends on the file that is read in, when the app runs".  Linked-Lists are a thing of wonder.  Insert and delete where we want!  It can hold collection of unordered linked elements.  But, it is so easy to break; you have to spend time on the `Orders of Operations`.  Easy to create unexpected behaviour in your list.
+I really enjoyed writing this C++ code.  If you have ever written code and found yourself saying "I don't know how big to make my array?" `Linked-Lists` may be a more suitable `Data Structure`.  Insert quickly with no specific order.  Especially relevant if the data you are reading into the List is already ordered.  The fun piece is the danger; you have to spend time on the `Orders of Operations` when writing your `Linked List`.  It is simple to create unexpected behaviour when your own thoughts are not clear.  Note - I moved all my Nodes to `Heap` objects to ensure the Delete step was nice and tidy.
