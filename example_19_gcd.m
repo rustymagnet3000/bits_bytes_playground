@@ -10,17 +10,20 @@
 #include <assert.h>
 #include <pthread.h>
 
+NSMutableArray *fishyArray;
+NSLock *arrayLock;
+
 @interface YDFishClass : NSObject
 {
-    int _count;
+    NSInteger _caught;
     NSString *_name;
 }
-@property int count;
+@property NSInteger caught;
 @property NSString *name;
 @end
 
 @implementation YDFishClass
-@synthesize count = _count;
+@synthesize caught = _caught;
 @synthesize name = _name;
 
 @end
@@ -29,30 +32,29 @@ typedef void (^SimpleSlowBlock)(YDFishClass *);
 
 SimpleSlowBlock simpleBlock = ^ (YDFishClass *fishObj){
 
-    NSLog(@"[+] simpleBlock on Main thread: %@", [NSThread isMainThread] ? @"Yes" : @"No");
-    NSTimeInterval blockThreadTimer = 0.5;
-
+    NSTimeInterval blockThreadTimer = 0.2;
     uint64_t tid;
     assert(pthread_threadid_np(NULL, &tid)== 0);
     NSLog(@"[+]%@: thread ID: %#08x", [fishObj name], (unsigned int) tid);
 
-    for(int i = 0; i < 3; i++)
+    for(int i = 0; i <= [fishObj caught]; i++)
     {
-        NSLog(@"\t\t%@", [fishObj name]);
+        [arrayLock lock]; // NSMutableArray isn't thread-safe
+        [fishyArray addObject:[fishObj name]];
+        [arrayLock unlock];
         [NSThread sleepForTimeInterval:blockThreadTimer];
     }
 };
 
 
-int main() {
+void yd_start_stop(void) {
+
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
-
             YDFishClass *shark = [[YDFishClass alloc] init];
-            shark.count = 5;
+            shark.caught = 5;
             shark.name = @"Tiger Shark";
-
             simpleBlock(shark);
         }
 
@@ -61,11 +63,9 @@ int main() {
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool {
-
             YDFishClass *jellyfish = [[YDFishClass alloc] init];
-            jellyfish.count = 5;
-            jellyfish.name = @"Man O' War";
-
+            jellyfish.caught = 5;
+            jellyfish.name = @"Lemon Shark";
             simpleBlock(jellyfish);
         }
         dispatch_semaphore_signal(semaphore);
@@ -73,18 +73,40 @@ int main() {
 
     // Wait for the above block execution.
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+
+}
+
+
+int main(void) {
+
+    @autoreleasepool {
+        fishyArray = [[NSMutableArray alloc] init];
+        arrayLock = [[NSLock alloc] init];
+        yd_start_stop();
+        [arrayLock lock];
+
+        [fishyArray enumerateObjectsUsingBlock: ^(NSString *string, NSUInteger index, BOOL *stop){
+            NSLog(@"%@: %lu", string, (unsigned long)index);
+        }];
+        [arrayLock unlock];
+    };
+
     return 0;
 }
+
 /*
-[+] simpleBlock on Main thread: No
-[+] simpleBlock on Main thread: No
-[+]Man O' War: thread ID: 0x023b1a
-[+]Tiger Shark: thread ID: 0x023b1b
-		Man O' War
-		Tiger Shark
-		Man O' War
-		Tiger Shark
-		Man O' War
-		Tiger Shark
-Program ended with exit code: 0
+[+]Tiger Shark: thread ID: 0x0dd5a5
+[+]Lemon Shark: thread ID: 0x0dd5a6
+Tiger Shark: 0
+Lemon Shark: 1
+Tiger Shark: 2
+Lemon Shark: 3
+Tiger Shark: 4
+Lemon Shark: 5
+Tiger Shark: 6
+Lemon Shark: 7
+Tiger Shark: 8
+Lemon Shark: 9
+Tiger Shark: 10
+Lemon Shark: 11
 */
