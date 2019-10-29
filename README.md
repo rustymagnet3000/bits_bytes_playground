@@ -116,5 +116,20 @@ I used an `NSLock` to stop it crashing:
   [arrayLock unlock];
 ```
 
+### 20. C Fork
+The most basic example for C's Fork API.
+
 ### 21. C++ Linked List
 I really enjoyed writing this C++ code.  If you have ever written code and found yourself saying "I don't know how big to make my array?" `Linked-Lists` may be a more suitable `Data Structure`.  Insert quickly with no specific order.  Especially relevant if the data you are reading into the List is already ordered.  The fun piece is the danger; you have to spend time on the `Orders of Operations` when writing your `Linked List`.  It is simple to create unexpected behaviour when your own thoughts are not clear.  Note - I moved all my Nodes to `Heap` objects to ensure the Delete step was nice and tidy.
+
+### 22. C++ Doubly-Linked List
+I wanted to show the advantage of a Doubly-Linked list, in terms of deleting a Node.
+
+### 23.Objective-C's Run-time
+Add Class, iVar and Method all at runtime. Magic.
+
+### 24.Objective-C NSDictionary
+I found an app using an NSDictionary to store sensitive information.  I this piece of code is from Apple and shows how the compiler will breakdown higher level code into more primitive Objective-C types `id` and it will always go back to `NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects`.
+
+### 25.C Byte Array to Objective-C
+Piece of code to help understand how I could manipulate code with Frida's Objective-C interface.
