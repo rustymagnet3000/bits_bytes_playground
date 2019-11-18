@@ -1,5 +1,5 @@
 
-# Instrumenting FizzBuzz
+# Instrument FizzBuzz
 Xcode's `Instruments` was an amazing tool. It leveraged `Dtrace` to watch everything inside an app.
 
 I used the child's game / developer question `Fizz Buzz` to show the speed differences.
@@ -37,10 +37,10 @@ for n in 1...100 {
 ```
 ### C
 Fast out of the box.
-![c_fast](/FizzBuzz/c_fast.png)
+![c_fast](/Instrument_FizzBuzz/c_fast.png)
 
 Could still get quicker:
-![c_fast](/FizzBuzz/c_faster_putchar.png)
+![c_faster](Instrument_FizzBuzz/c_faster_putchar.png)
 
 ```
 #include <stdio.h>
@@ -93,7 +93,7 @@ int main() {
 ```
 ### Objective-C
 Could still get quicker:
-![nslog_slow](/FizzBuzz/objc_nslog_slow.png)
+![nslog_slow](/Instrument_FizzBuzz/objc_nslog_slow.png)
 ```
 #import <Foundation/Foundation.h>
 #define MAX_N 1000000
