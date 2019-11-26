@@ -12,7 +12,7 @@ I used the child's game / developer question `Fizz Buzz` to show the speed diffe
 >
 > For numbers which are multiples of both 3 and 5, print "FizzBuzz" instead of the number.
 
-I changed the task to count to 1 million.  The game is a good choice as it uses `Division` which was computationally expensive compared to Addition and  subtraction.
+I changed the count to 1 million.
 
 You could use `Time Profiler` inside of `Instruments` to observe speed differences in languages - `Objc`, `Swift` and `C`.  It was easy to see the code or system API call that caused delay.
 
@@ -40,7 +40,7 @@ Fast out of the box.
 ![c_fast](/Instrument_FizzBuzz/c_fast.png)
 
 Could still get quicker:
-![c_faster](Instrument_FizzBuzz/c_faster_putchar.png)
+![c_faster](/Instrument_FizzBuzz/c_faster_putchar.png)
 
 ```
 #include <stdio.h>

@@ -133,3 +133,6 @@ I found an app using an NSDictionary to store sensitive information.  I this pie
 
 ### 25.C Byte Array to Objective-C
 Piece of code to help understand how I could manipulate code with Frida's Objective-C interface.
+
+### 26.C Bitwise Operators
+Simple examples of the C bitwise operators.
