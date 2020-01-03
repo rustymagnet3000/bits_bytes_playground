@@ -28,7 +28,7 @@ int main(void) {
     *****************************************************/
 
     result = fifteen & sixteen;
-    prettyPrint(result, "AND    ");
+    prettyPrint(result, "AND");
     /*
     0  0   0   0   1   1   1   1           15       0x0f
     0  0   0   1   0   0   0   0           16       0x10
@@ -36,7 +36,7 @@ int main(void) {
     */
 
     result = fifteen | sixteen;
-    prettyPrint(result, "OR     ");
+    prettyPrint(result, "OR");
     /*
     0  0   0   0   1   1   1   1           15      0x0f
     0  0   0   1   0   0   0   0           16      0x10
@@ -44,7 +44,7 @@ int main(void) {
     */
 
     result = fifteen ^ sixteen;
-    prettyPrint(result, "XOR    ");
+    prettyPrint(result, "XOR");
     /*
     0  0   0   0   1   1   1   1           15      0x0f
     0  0   0   1   0   0   0   0           16      0x10
@@ -52,14 +52,14 @@ int main(void) {
     */
 
     result = ~fifteen;
-    prettyPrint(result, "COMP   ");
+    prettyPrint(result, "COMP");
     /*
     0  0   0   0   1   1   1   1           15      0x0f
     1  1   1   1   0   0   0   0           RESULT  ??
     */
 
     result = fifteen << 2;
-    prettyPrint(result, "LEFT 2 ");
+    prettyPrint(result, "LEFT 2");
     /*
     128 64  32  16  8   4   2   1           Dec     Hex
     0   0   0   0   1   1   1   1           15      0x0f
@@ -67,7 +67,7 @@ int main(void) {
     */
 
     result = fifteen << 4;
-    prettyPrint(result, "LEFT 4 ");
+    prettyPrint(result, "LEFT 4");
     /*
      128 64  32  16  8   4   2   1           Dec     Hex
      0  0   0   0   1   1   1   1           15      0x0f
