@@ -1,6 +1,7 @@
 # Assembler - compile ARM code for multiple O/S
 ##### References
 http://kerseykyle.com/articles/ARM-assembly-hello-world
+
 https://www.acmesystems.it/arm9_toolchain
 ##### Source code
 ```
@@ -67,8 +68,14 @@ sudo apt-get install gcc-arm-linux-gnueabi
 sudo apt-get install libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-gnueabi libncurses5-dev
 ```
 After that, I was able to go straight from ARM32 code to an object file.
+##### ASM -> Object file -> Executable
+```
+arm-linux-gnueabi-as hello.s -o hello.o
 
-##### Source code
+arm-linux-gnueabi-ld hello.o -o hello
+```
+
+##### ARM32 asm
 ```
 .text            
 .global _start
@@ -87,12 +94,8 @@ message:
     .asciz "hello world\n"
 len = .-message     
 ```
-##### ARM32 Result
+##### Result
 ```
-arm-linux-gnueabi-as hello.s -o hello.o
-
-arm-linux-gnueabi-ld hello.o -o hello
-
 ./hello
 hello world
 
