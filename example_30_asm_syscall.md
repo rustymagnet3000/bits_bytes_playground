@@ -1,9 +1,8 @@
 # Assembler - compile ARM code for multiple O/S
 ##### References
 ```
-http://kerseykyle.com/articles/ARM-assembly-hello-world
-https://github.com/azeria-labs/ARM-assembly-examples/blob/master/write.s
-https://www.acmesystems.it/arm9_toolchain
+https://w3challs.com/syscalls/?arch=arm_strong  // find the Syscall here
+https://github.com/azeria-labs/ARM-assembly-examples/blob/master/write.s // example code
 ```
 ##### ASM code
 ```
@@ -31,10 +30,10 @@ addr_of_string: .word string
 
 ##### ASM -> Object file -> Executable
 ```
-arm-linux-gnueabi-as write.s -o write.o && arm-linux-gnueabi-ld write.o -o write
+arm-linux-gnueabi-as access.s -o access.o && arm-linux-gnueabi-ld access.o -o access
 ```
 ##### Result
 ```
-user@arm64:~$ ./write
-Foobar World
+user@arm64:~$ ./access
+
 ```
