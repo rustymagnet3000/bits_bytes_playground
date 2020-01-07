@@ -106,19 +106,9 @@ $ strace ./a.out
 When I originally called `access` on Linux, it was auto-changed my code to this instruction:
 https://linux.die.net/man/2/faccessat
 
-##### Registers for Syscalls
-http://man7.org/linux/man-pages/man2/syscall.2.html
-```
-
-	   Arch/ABI      arg1  arg2  arg3  arg4  arg5  arg6  arg7  Notes
-       ──────────────────────────────────────────────────────────────
-       arm/EABI      r0    r1    r2    r3    r4    r5    r6
-       arm64         x0    x1    x2    x3    x4    x5    -
-       i386          ebx   ecx   edx   esi   edi   ebp   -
-```
 ##### References
 ```
-https://jameshfisher.com/2018/02/19/how-to-syscall-in-c/
+https://john-millikin.com/unix-syscalls
 http://shell-storm.org/shellcode/files/syscalls.html
 https://filippo.io/linux-syscall-table/
 https://modexp.wordpress.com/2017/01/21/shellcode-osx/

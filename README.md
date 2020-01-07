@@ -146,3 +146,6 @@ The simplest example of using the C's `execve` to transform the calling process 
 
 ### 29.ASM compile for ARM64 or ARM32
 This write-up shows how to compile source code or ASM code on a 64-bit ARM machine for either 64 or 32 bit targets.  I had to install a `cross-compiler`.
+
+### 30. Syscall
+How to call `Syscall` on `macOS` and `linux`.
