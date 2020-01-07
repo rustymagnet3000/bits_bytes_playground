@@ -11,3 +11,4 @@ int main() {
 // https://azeria-labs.com/writing-arm-shellcode/
 // http://www.kernel-panic.it/security/shellcode/shellcode5.html
 // http://shell-storm.org/blog/Shellcode-On-ARM-Architecture/
+// https://modexp.wordpress.com/2017/01/21/shellcode-osx/
