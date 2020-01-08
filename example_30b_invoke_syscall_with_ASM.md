@@ -1,4 +1,4 @@
-# Assembler - compile ARM code for multiple O/S
+# Invoke Syscall with ASM
 ##### References
 ```
 https://w3challs.com/syscalls/?arch=arm_strong  // find the Syscall here

@@ -37,13 +37,16 @@ int main(void) {
 ```
 ##### Using Syscall (macOS)
 ```
+#include <sys/syscall.h>
+#include <stdio.h>
+
 int main(void) {
     int result = syscall(SYS_access, "output.txt", F_OK);
     printf("[*] result: %d\n", result);
     return 0;
 }
 ```
-##### Finding syscall number
+##### Finding Syscall number
 On macOS - with xCode - you could find syscall values in: **/usr/include/sys/syscall.h**.
 
 ```
@@ -64,6 +67,15 @@ On Linux, I preferred to add a compiler flag:
 Then `gcc` printed the file path of each included files.  On my `Linux-ARM-emulator`, I followed the breadcrumbs to:
 
 `/usr/include/aarch64-linux-gnu/bits/syscall.h`
+
+Or you could use:
+
+```
+grep execve /usr/arm-linux-gnueabi/include/asm/unistd.h
+#define __NR_execve			(__NR_SYSCALL_BASE+ 11)
+
+// I needed this first: sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf 
+```
 
 ##### Use SYS_
 The syscall value depended on the O/S.  For example, the system call to check a file exists (`access`) is:
