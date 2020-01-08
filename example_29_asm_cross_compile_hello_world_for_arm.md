@@ -66,6 +66,7 @@ I had to install a cross-compiler.
 ```
 sudo apt-get install gcc-arm-linux-gnueabi
 sudo apt-get install libc6-armel-cross libc6-dev-armel-cross binutils-arm-linux-gnueabi libncurses5-dev
+sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf      // you need this for generic header files
 ```
 After that, I was able to go straight from ARM32 code to an object file.
 ##### ASM -> Object file -> Executable

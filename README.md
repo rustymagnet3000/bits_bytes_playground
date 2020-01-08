@@ -138,14 +138,17 @@ Piece of code to help understand how I could manipulate code with Frida's Object
 ### 26.C Bitwise Operators
 Simple examples of the C bitwise operators.
 
-### 27.C a vulnerable strcpy
+### 27.C Vulnerable strcpy
 On macOS the linker defaults to swap out a vulnerable `strcpy` with a safe version.  This code is designed to be unsafe to demo the issues with `buffer overflows` and `strcpy`.
 
-### 28.Invoke shell from code
+### 28a.C Invoke shell from code
 The simplest example of using the C's `execve` to transform the calling process into a new process.  In this case, I spawned a bash shell from the C code.
+
+### 28b.ASM Shellcode for execve
+Transform the `asm` code into shellcode.  Only for `arm` hosts.
 
 ### 29.ASM compile for ARM64 or ARM32
 This write-up shows how to compile source code or ASM code on a 64-bit ARM machine for either 64 or 32 bit targets.  I had to install a `cross-compiler`.
 
-### 30. Syscall
-How to call `Syscall` on `macOS` and `linux`.
+### 30.C Syscall
+Circumvent `libC` and directly invoke the Operating System with `Syscall` on `macOS` and `linux`.
