@@ -59,8 +59,6 @@
 
 @end
 
-
-
 int main() {
     @autoreleasepool {
 
@@ -80,8 +78,8 @@ int main() {
 }
 
 /*
-[+] [YDGCDClass start] on Main thread? No
-[+] [YDGCDClass start] isExecuting? Yes
-[+] Thread ID: 0x0d61b5
-[+] isFinished COMPLETED
+  [+] [YDGCDClass start] on Main thread? No
+  [+] [YDGCDClass start] isExecuting? Yes
+  [+] Thread ID: 0x0d61b5
+  [+] isFinished COMPLETED
 */
