@@ -142,7 +142,7 @@ Simple examples of the C bitwise operators.
 On macOS the linker defaults to swap out a vulnerable `strcpy` with a safe version.  This code is designed to be unsafe to demo the issues with `buffer overflows` and `strcpy`.
 
 ### 28a.C Invoke shell from code
-The simplest example of using the C's `execve` to transform the calling process into a new process.  In this case, I spawned a bash shell from the C code.
+The simplest example of C's `execve` to transform the calling process into a new process.  This example showed how to spawn a bash shell from code.
 
 ### 28b.ASM Shellcode for execve
 Transform the `asm` code into shellcode.  Only for `arm` hosts.
@@ -152,3 +152,9 @@ This write-up shows how to compile source code or ASM code on a 64-bit ARM machi
 
 ### 30.C Syscall
 Circumvent `libC` and directly invoke the Operating System with `Syscall` on `macOS` and `linux`.
+
+### 31.Writing in-line assembly code in C
+Write ASM instructions inside of C code for Linux ARM.
+
+### 32.Objective-C Respond to Selector
+Check whether an Instance Method or Class Method exists, before calling.
