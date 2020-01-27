@@ -33,7 +33,14 @@ int main(void) {
 }
 
 /*
-Result: 42
-Result: 55
+(lldb) lookup Foobar
+****************************************************
+3 hits in: tinySwizzle
+****************************************************
+-[Foobar init]
+
+-[Foobar result]
+
+-[Foobar setResult:]
  */
 
