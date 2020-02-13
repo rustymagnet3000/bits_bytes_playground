@@ -42,7 +42,7 @@ int main(void) {
         static uint8_t bytes[] = { 0x41, 0x42, 0x43, 0x44 };
         CFStringRef str1 = CFStringCreateWithBytes(NULL, bytes, sizeof(bytes), kCFStringEncodingUTF8, TRUE);
         CFShow(str1);
-
+	CFRelease(str1);
     }
 }
 
