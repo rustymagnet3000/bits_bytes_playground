@@ -4,18 +4,17 @@
 using namespace std;
 
 int main (void) {
-    std::string str0("abc");
-    str0 = "C+_ String 0";
-    str0.at(2) = '+';
 
-    char str1[11] = {'C',' ','s', 't', 'r', 'i', 'n', 'g', ' ', '1','\0'};
-    char str2[] = "C string 2";
+    std::string str1 = std::string("C++ String 2");
+    
+    std::string str2("abc");
+    str1 = "C+_ String 1";
+    str1.at(2) = '+';
     
     string str3 = "C++ String 3";
 
-    cout << str0 << "\tsize = " << str0.size() << "\tcapacity = " << str0.capacity() << '\n';
-    cout << str1 << endl;
-    cout << str2 << endl;
+    cout << str1 << "\tsize = " << str1.size() << "\tcapacity = " << str1.capacity() << '\n';
+    cout << str2 << "\tsize = " << str2.size() << "\tcapacity = " << str2.capacity() << '\n';
     cout << str3 << "\t" << str3.length() << endl;
 
     string str4 = "C++ ";
