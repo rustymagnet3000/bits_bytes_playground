@@ -1,3 +1,7 @@
+http://icarus.cs.weber.edu/~dab/cs1410/textbook/8.Strings/qsort.html
+https://stackoverflow.com/questions/43872655/bsearch-finding-a-string-in-an-array-of-structs
+http://www.cplusplus.com/reference/cstdlib/bsearch/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
