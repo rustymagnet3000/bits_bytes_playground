@@ -8,6 +8,8 @@
 /*
  Find the Factors of 1403 and 2993 with Pollard Rho's method
  https://www.youtube.com/watch?v=fFJMoIj71nQ
+ Do NOT use with big numbers. Leaks memory.
+
 */
 
 void gmpFactorial(unsigned int n, mpz_t *f) {
