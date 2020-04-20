@@ -3,11 +3,12 @@
 #include <assert.h>
 #include "gmp.h"
 
-#define N "464583729100140631"
+#define N "1642061677267048469007620094567254201801"
 #define MAX_LOOPS 50
 
 /* Assumes 1<a<n, and k=LCM[1,2,3,4...K], some K */
 /* When running. RAM remains flat, unlike past examples */
+/* but it does max out my CPU!  */
 /* Algorithm based on: https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm */
 
 int main(void)
@@ -60,5 +61,4 @@ int main(void)
     return 0;
 
 }
-
 
