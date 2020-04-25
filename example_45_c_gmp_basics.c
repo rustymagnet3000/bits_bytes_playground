@@ -11,15 +11,19 @@ int main()
     // init values. NULL required as it is a variadic function.
     mpz_inits ( x, n, n_x_n, NULL);
     
-    // 25125434821     1180873 * 21277     62 seconds in Naive factorizing
-    const char *raw = "25125434821";
+    // 414243444546     ABCDEF
+    const char *raw = "414243444546";
     
     // int mpz_set_str (mpz_t rop, const char *str, int base)
     flag = mpz_set_str(n,raw, 10);
     assert (flag == 0);
 
+    // Length in Bits
+    size_t lenPrime;
+    lenPrime = mpz_sizeinbase(n, 2);
+
     /* GMP's printf  */
-    gmp_printf("[+]\tn: %Zd\n", n);
+    gmp_printf("[+]\tn: %Zd (%zu bits)\n", n, lenPrime);
     
     /* Addition */
     mpz_add_ui(x,n,1);
