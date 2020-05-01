@@ -56,3 +56,18 @@ int main(void) {
     return 0;
 }
 
+
+[+]Elements in array: 5
+[+]sizeof byte arrays: 50
+[+]Start address of byte arrays: 0x100000ea0
+[+]End address of byte arrays: 0x100000ed2
+[+]Each element is: 10
+[+]p = 0x100000ea0
+[+]p + 10 = Hello (0x100000eaa)
+[+]p points toward 		0x100000ea0
+0x100000ea0				= ABC123
+0x100000eaa				= Hello
+0x100000eb4				= hELLO
+0x100000ebe				= 111222
+0x100000ec8				= Hello!!
+Program ended with exit code: 0
