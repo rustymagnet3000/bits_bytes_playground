@@ -9,8 +9,8 @@
    Don't expect to overwrite entries [ safely ] .
    It is wasteful, in terms of space.
    5 (MAX_ARRAYS) * 10 (MAX_STR_LEN) = 50 bytes.
-   Only about 29 bytes + 5 NULL terminator (0x00) are actually used.
-   The unused by are set to NULL.
+   Only about 29 bytes.
+   The unused bytes are NULL [ so each byte array is NULL terminated ].
 */
 
 const char byteArrays[MAX_ARRAYS][MAX_STR_LEN] = {
@@ -20,7 +20,6 @@ const char byteArrays[MAX_ARRAYS][MAX_STR_LEN] = {
         { 0x31, 0x31, 0x31, 0x32, 0x32, 0x32 }, // 1112222
         { 0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x21, 0x21 } // "Hello!!"
 };
-
 
 int main(void) {
 
@@ -33,11 +32,11 @@ int main(void) {
     /*************************************************************************************/
     char *startAddress = (char *)byteArrays;
     char *endAddress = (char *)byteArrays + sizeof( byteArrays );
-    size_t sizeElements = sizeof(byteArrays[0]);
+    size_t sizeSingleElement = sizeof(byteArrays[0]);
     
     printf("[+]Start address of byte arrays: %p\n", startAddress );
     printf("[+]End address of byte arrays: %p\n", endAddress);
-    printf("[+]Each element is: %lu\n", sizeElements);
+    printf("[+]Each element is: %lu\n", sizeSingleElement);
     
     char *p = startAddress;
     printf("[+]p = %p\n", p);
@@ -50,7 +49,7 @@ int main(void) {
 
     while (startAddress < endAddress) {
         printf("%p\t\t\t\t= %s\n", startAddress, startAddress);
-        startAddress = startAddress + sizeElements;
+        startAddress = startAddress + sizeSingleElement;
     }
 
     return 0;
