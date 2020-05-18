@@ -1,0 +1,17 @@
+import CryptoKit
+import Foundation
+/* https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Standards-and-Guidelines/documents/examples/SHA256.pdf
+ 
+SHA256: abc -> ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+SHA512: abc -> ddaf35a193617abacc417349ae20413112e6fa4e89a97ea20a9eeee64b55d39a2192992a274fc1a836ba3c23a3feebbd454d4423643ce80e2a9ac94fa54ca49f
+*/
+
+let inputString = "abc"
+let inputData = Data(inputString.utf8)
+let hashed256 = SHA256.hash(data: inputData)
+let hashed512 = SHA512.hash(data: inputData)
+let hashedString256 = hashed256.compactMap { String(format: "%02x", $0) }.joined()
+let hashedString512 = hashed512.compactMap { String(format: "%02x", $0) }.joined()
+print("SHA256: abc -> \(hashedString256)")
+print("SHA512: abc -> \(hashedString512)")
+
