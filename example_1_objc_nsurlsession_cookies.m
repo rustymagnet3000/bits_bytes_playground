@@ -19,9 +19,6 @@ int main(void) {
         }
         
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        config.waitsForConnectivity = YES;
-        
         NSURLSession *session = [NSURLSession sharedSession];
         NSLog(@"🍭 start");
         NSURLSessionDataTask *task = [session dataTaskWithRequest: request
