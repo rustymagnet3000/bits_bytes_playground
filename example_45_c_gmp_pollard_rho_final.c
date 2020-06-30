@@ -3,40 +3,42 @@
 #include <assert.h>
 #include "gmp.h"
 
-#define N "1642061677267048469007620094567254201801"
+#define N "7919261327"
 #define MAX_LOOPS 50
 
 /* Assumes 1<a<n, and k=LCM[1,2,3,4...K], some K */
-/* When running. RAM remains flat, unlike past examples */
-/* but it does max out my CPU!  */
-/* Algorithm based on: https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm */
+/* RAM remains flat, unlike past examples */
+/* Algorithm: https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm */
 
 int main(void)
 {
-    mpz_t exp, n, gcd, secretFactor, x, xTemp, xFixed;
+    mpz_t n, gcd, secretFactor, x, xTemp, xFixed;
         
     int flag, k = 2, loop = 1, count;
     
-    mpz_inits(n, gcd, xTemp, xFixed, secretFactor, NULL);
-    mpz_init_set_ui(x, 2);
-
-    flag = mpz_set_str(n, N, 10);
-    assert (flag == 0);
+    mpz_inits( n, gcd, xTemp, secretFactor, NULL );
+    mpz_init_set_ui( x, 2 );
+    mpz_init_set_ui( xFixed, 2 );
+    
+    flag = mpz_set_str( n, N, 10 );
+    assert(flag == 0);
     
     do {
         count = k;
         gmp_printf("\n----   loop %4i (k = %d, n = %Zd)  ----\n", loop, k, n);
         do {
-            mpz_add_ui(exp,x,1);
-            mpz_powm(x, x, exp, n);
-
-            mpz_sub(xTemp,x, xFixed);
-            mpz_gcd(gcd, xTemp, n);
             
-            mpz_abs (xTemp, xTemp);
+            mpz_mul( x,x,x );
+            mpz_add_ui( x,x,1U );
+            mpz_mod( x, x, n );
+            gmp_printf("%Zd = (x * x + 1) mod n\t\t", x);
             
-   //         gmp_printf("[%d]\tgcd:%Zd \t\t( %Zd )\n", k - count + 1, gcd, xTemp);
-
+            mpz_sub( xTemp, x, xFixed );
+            mpz_abs ( xTemp, xTemp );
+            
+            mpz_gcd(  gcd, xTemp, n );
+            
+            gmp_printf("---- GCD = %Zd ----\n", gcd );
             flag = mpz_cmp_ui (gcd, 1);
             if(flag > 0){
                 mpz_cdiv_q (secretFactor, n, gcd);
@@ -55,10 +57,8 @@ int main(void)
     
     printf("\n[*] Finished k values: %d, loop: %d\n", k, loop);
     
-    /* free all gmp structs  */
-    mpz_clears ( exp, n, gcd, secretFactor, x, xTemp, xFixed, NULL );
+    mpz_clears ( n, gcd, secretFactor, x, xTemp, xFixed, NULL );
 
     return 0;
 
 }
-
