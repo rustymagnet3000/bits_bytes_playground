@@ -35,14 +35,15 @@ int main () {
     int len;
     char tmpbuf[BUFFER];
     char capath[PATH_MAX];
-    SSL_CTX *ctx = SSL_CTX_new(SSLv23_client_method());
+    SSL_CTX *ctx = SSL_CTX_new(TLS_client_method());
     SSL *ssl;
+    DIR *dir;
     
     if (getcwd(capath, sizeof(capath)) == NULL)
         exit(100);
 
     strcat(capath, CAFILES);
-    DIR* dir = opendir(capath);
+    dir = opendir(capath);
     if (dir == NULL)
         exit(99);
     
@@ -65,19 +66,19 @@ int main () {
         exit(92);
     
     long result = SSL_get_verify_result(ssl);
-    
+
     switch (result) {
         case X509_V_OK:
             fprintf(stdout, "Happy path\n");
             break;
         case X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT_LOCALLY:
-            fprintf(stdout, "Can't find certificate\n");
+            fprintf(stderr, "Can't find certificate\n");
             exit(20);
         case X509_V_ERR_SELF_SIGNED_CERT_IN_CHAIN:
             fprintf(stdout, "Self signed certificate chain. Proceed\n");
             break;
         default:
-            fprintf(stdout, "Unexpected error: %ld\n", result);
+            fprintf(stderr, "Unexpected error: %ld\n", result);
             exit((int)result);
     }
 
