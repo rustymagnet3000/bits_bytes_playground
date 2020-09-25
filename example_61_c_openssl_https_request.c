@@ -1,3 +1,18 @@
+/*
+BUILD SCRIPT TO INJECT HASHED CERT VALUES INTO THE CAFILES DIRECTORY
+echo "[*] c_rehash step for buiding Trust Store"
+export CAFILES="${SYMROOT}/${CONFIGURATION}/cafiles/"
+
+if [ -d "${CAFILES}" ] 
+then
+    echo "[*] Injecting symbolic links into CA directory"
+    ${HOME}/openssl/bin/c_rehash ${CAFILES}
+else
+    echo "[*] Cannot find: ${CAFILES}"
+    exit 999
+fi
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
