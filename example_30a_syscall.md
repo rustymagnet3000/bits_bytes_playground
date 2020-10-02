@@ -27,7 +27,8 @@ int main (void){
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/syscall.h>
-#include <fcntl.h> /* Definition of AT_* constants */
+#include <fcntl.h>      /* Definition of AT_* constants */
+                        /*  F_OK = test existence of file */
 
 int main(void) {
         int result = syscall(SYS_faccessat, AT_FDCWD, "output.txt", F_OK);
@@ -43,6 +44,27 @@ int main(void) {
 int main(void) {
     int result = syscall(SYS_access, "output.txt", F_OK);
     printf("[*] result: %d\n", result);
+    return 0;
+}
+```
+##### Syscall ptrace (macOS)
+Remember this will quit if you run it with XCode attached:
+```
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/syscall.h>
+#include <sys/types.h>
+#include <sys/ptrace.h>
+#include <errno.h>
+
+int main(void) {
+    int result, data = 0;
+    pid_t pid = 0;
+    caddr_t addr = 0;
+    errno = 0;
+
+    result = syscall(SYS_ptrace, PT_DENY_ATTACH, pid, addr, data);
+    printf("Result: %d\t Error: %d\n", result, errno);
     return 0;
 }
 ```
@@ -74,7 +96,7 @@ Or you could use:
 grep execve /usr/arm-linux-gnueabi/include/asm/unistd.h
 #define __NR_execve			(__NR_SYSCALL_BASE+ 11)
 
-// I needed this first: sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf 
+// I needed this first: sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
 ```
 
 ##### Use SYS_
