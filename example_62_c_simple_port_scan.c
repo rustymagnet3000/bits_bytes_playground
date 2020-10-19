@@ -11,7 +11,6 @@
 #define END 2250
 /*  https://docs.microsoft.com/en-us/previous-versions/aa454002(v=msdn.10)?redirectedfrom=MSDN   */
 
-
 int main(int argc, char **argv){
     int result, sock;
     int refused_conns = 0, open_conns = 0, unknown_conns = 0;
@@ -29,13 +28,10 @@ int main(int argc, char **argv){
             printf( "[!]%i open port\n", i );
             open_conns++;
         }
-        else if ( errno == 61 ) {         // ECONNREFUSED
-            refused_conns++;
+        else if ( result == -1 ) {
+            ( errno == 61 ) ? refused_conns++ : unknown_conns++ ;
         }
-        else  {
-            unknown_conns++;
-        }
-        close(sock);
+        close ( sock );
     }
 
     printf("[*]Completed.\n\tOpen ports: %d\tRefused ports:%d\tUnknown response:%d\n", open_conns, refused_conns, unknown_conns);
