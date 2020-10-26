@@ -8,8 +8,7 @@
 #include <sys/un.h>
 #include <arpa/inet.h>
 #define HOSTNAME "localhost"
-#define START 2200
-#define END 2600
+#define PORT 60000
 
 /*
     With TCP sockets, we had to establish a connection before we could communicate.
@@ -19,57 +18,61 @@
  https://www.gta.ufrj.br/ensino/eel878/sockets/sendman.html
  */
 
-/* paddr: print the IP address in a standard decimal dotted format */
-void paddr(unsigned char *a)
-{
-        printf("Host: %d.%d.%d.%d\n", a[0], a[1], a[2], a[3]);
-}
-
-
 int main(int argc, char **argv){
     struct hostent *hp;     /* host information */
     static const struct sockaddr_in zero_sockaddr_in;   /* different way to zero init our struct */
     struct sockaddr_in servaddr = zero_sockaddr_in;   /* server address */
-    int fd_socket;
-    char *sent_message = "Foobar message";
-
+    int fd_sock;
+    char *sent_message = "Bob's message ( client )";
+    ssize_t result = 0;
+    
     /* server's address and data */
-    memset((char*)&servaddr, 0, sizeof(servaddr));
+    memset ((char*)&servaddr, 0, sizeof (servaddr));
     servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(2222);
+    servaddr.sin_port = htons (PORT);
 
     /* look server given name */
     hp = gethostbyname(HOSTNAME);
     if (!hp) {
-            fprintf(stderr, "could not obtain address of %s\n", HOSTNAME);
-            return 0;
+        fprintf(stderr, "[!]could not obtain address of %s\n", HOSTNAME);
+        exit (EXIT_FAILURE);
     }
     
-    fd_socket = socket (PF_LOCAL, SOCK_DGRAM, 0);
-    if (fd_socket < 0)
+    fd_sock = socket (AF_INET, SOCK_DGRAM, 0);
+    if (fd_sock < 0)
       {
-        perror ("socket");
+        perror ("[!]socket:");
         exit (EXIT_FAILURE);
       }
-
-    /* print address of hostname */
-    for (int i=0; hp->h_addr_list[i] != 0; i++)
-            paddr((unsigned char*) hp->h_addr_list[i]);
-    
 
     /* put the host's address into the server address structure */
     memcpy ((void *)&servaddr.sin_addr, hp->h_addr_list[0], hp->h_length);
 
+    char addr[INET_ADDRSTRLEN];
+    uint16_t port;
+    inet_ntop ( AF_INET, &servaddr.sin_addr, addr, sizeof (addr) );
+    port = htons (servaddr.sin_port);
+    printf("[*]scan started...\n[*]Server: %s:%d\n", addr, port );
+
+    result = sendto (fd_sock, sent_message, strlen (sent_message), 0, (struct sockaddr *) & servaddr, sizeof (servaddr));
     
-    puts ("[*]scan started...");
-
-    if ( sendto(fd_socket, sent_message, strlen(sent_message), 0, (struct sockaddr *) & servaddr, sizeof(servaddr)) < 0 ) {
+    if (result < 0)
         perror("sendto failed");
-        return 0;
-    }
 
-    /* Why close UDP?  https://www.cs.rutgers.edu/~pxk/417/notes/sockets/udp.html */
-    close(fd_socket);
+    char buffer[1024];
+    socklen_t len;
+    ssize_t n;
+    
+    n = recvfrom (fd_sock, (char *)buffer, 1024,
+                    MSG_WAITALL, (struct sockaddr *) &servaddr,
+                    &len);
+    buffer[n] = '\0';
+    printf("[*]Message from server : %s\n", buffer);
+    
+    /* Close a file descriptor */
+    close (fd_sock);
     
     return 0;
 }
+
+
