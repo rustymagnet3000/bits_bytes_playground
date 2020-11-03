@@ -1,16 +1,13 @@
 #import <Foundation/Foundation.h>
-
 /*
 https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/
 https://cardaci.xyz/blog/2018/02/12/a-macos-anti-debug-technique-using-ptrace/
 */
 
-@interface Foo : NSObject
-@end
-
+@interface Foo : NSObject       @end
 @implementation Foo
-+(void)load {
-    NSLog (@"[*]--");
++(void)asmStartDenyAttach {
+    NSLog (@"[*]ASM code starting...");
     asm("movq $0, %rcx");
     asm("movq $0, %rdx");
     asm("movq $0, %rsi");
@@ -18,14 +15,37 @@ https://cardaci.xyz/blog/2018/02/12/a-macos-anti-debug-technique-using-ptrace/
     asm("movq $0x200001a, %rax"); /* ptrace syscall number 26 (0x1a) */
     asm("syscall");
 }
+
 @end
 
-int main (int argc, const char * argv[]) {
-    NSLog (@"[*]Program completing, success");
+int main (void) {
+    NSLog (@"[*]Program starting..");
+    [Foo asmStartDenyAttach];
+    NSLog (@"[*]Program completing");
     return 0;
 }
 
+
 /*
+ BREAKPOINTS WON"T FIRE
+ (lldb) b syscall
+ Breakpoint 2: where = libsystem_kernel.dylib`__syscall, address = 0x00007fff721469f0
+ 
+ 
+ 
+ ## Patching with Ghidra
+ /Search/Memory
+ Type in decimal value    :    31
+ Or type in Hex value     :    0x1f
+
+
+ ## Testing the patch
+ You require a debugger attached to check the patch worked:
+ ▶ lldb
+ (lldb) target create objc_play
+ (lldb) r
+
+ */
 
 nm objc_playground
 0000000100000ef0    t +[Foo load]
