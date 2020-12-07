@@ -7,29 +7,38 @@ Snippets of code ObjC, C++, C, Swift and Python code
 		- [objc_0_simple_class.m](#objc0simpleclassm)
 		- [objc_1_nsurlsession_synchronous_request.m](#objc1nsurlsessionsynchronousrequestm)
 		- [objc_2_nsurlsession_cookies.m](#objc2nsurlsessioncookiesm)
+		- [objc_3_nsurlsession_post_request.m](#objc3nsurlsessionpostrequestm)
+		- [objc_4_simple_property.m](#objc4simplepropertym)
+		- [objc_5_init.m](#objc5initm)
+		- [objc_6_init_and_property.m](#objc6initandpropertym)
+		- [objc_7_iskindof.m](#objc7iskindofm)
+		- [objc_8_respond_to_selector.m](#objc8respondtoselectorm)
+		- [objc_9_nsdictionary.m](#objc9nsdictionarym)
+		- [objc_10_nsdictionary_literal_syntax.m](#objc10nsdictionaryliteralsyntaxm)
+		- [objc_11_block.m](#objc11blockm)
+		- [objc_11_nsdate.m](#objc11nsdatem)
+		- [objc_12_nstimeInterval.m](#objc12nstimeintervalm)
 	- [2. Run Loop and Unused](#2-run-loop-and-unused)
 	- [3. NSNotificationCenter](#3-nsnotificationcenter)
 	- [4. Override Super Init and Property magic](#4-override-super-init-and-property-magic)
 	- [5. Designated Initialiser](#5-designated-initialiser)
-	- [6. Blocks](#6-blocks)
 	- [7. Use a debugger to invoke Blocks](#7-use-a-debugger-to-invoke-blocks)
 	- [8. C++ Namespace](#8-c-namespace)
 	- [9. C++ Stack vs Heap](#9-c-stack-vs-heap)
 	- [10. C++ Constructor & Destructor](#10-c-constructor-destructor)
 	- [11. C++ Time APIs](#11-c-time-apis)
 	- [12. C++ Encapsulation](#12-c-encapsulation)
-	- [13. ObjC NSString and isKindOfClass](#13-objc-nsstring-and-iskindofclass)
-	- [14. Structs](#14-structs)
-	- [15. Swizzling](#15-swizzling)
 	- [16. Class introspection](#16-class-introspection)
 	- [17. Threading in C with PThreads](#17-threading-in-c-with-pthreads)
 	- [18. Threading in ObjC with NSOperationQueue](#18-threading-in-objc-with-nsoperationqueue)
+	- [23.Objective-C's Run-time](#23objective-cs-run-time)
+	- [24.Objective-C NSDictionary](#24objective-c-nsdictionary)
 	- [19. Threading in ObjC with GCD, NSLock and Semaphores](#19-threading-in-objc-with-gcd-nslock-and-semaphores)
+	- [14. Structs](#14-structs)
+	- [15. Swizzling](#15-swizzling)
 	- [20. C Fork](#20-c-fork)
 	- [21. C++ Linked List](#21-c-linked-list)
 	- [22. C++ Doubly-Linked List](#22-c-doubly-linked-list)
-	- [23.Objective-C's Run-time](#23objective-cs-run-time)
-	- [24.Objective-C NSDictionary](#24objective-c-nsdictionary)
 	- [25.C Byte Array to Objective-C](#25c-byte-array-to-objective-c)
 	- [26.C Bitwise Operators](#26c-bitwise-operators)
 	- [27.C Vulnerable strcpy](#27c-vulnerable-strcpy)
@@ -53,6 +62,38 @@ Implemented `NSURLSessionDataTask` to send a HTTP request from the command line.
 #### objc_2_nsurlsession_cookies.m
 Shows how to parse `cookies` from `[NSHTTPCookieStorage sharedHTTPCookieStorage]` after getting a server response.
 
+#### objc_3_nsurlsession_post_request.m
+Creates a `POST` request for `NSURLSession`. Uses `enumerateKeysAndObjectsUsingBlock` to add request parameters.
+
+#### objc_4_simple_property.m
+How to use a `Property` to auto generate `getters` and `setters`.
+
+#### objc_5_init.m
+Use a custom `Init` call to create a `Class`.
+
+#### objc_6_init_and_property.m
+Nice way to combine `Init` and `Set` a `Property` at the same time.
+
+#### objc_7_iskindof.m
+When working with `ObjC` and `Classes` and `subclasses` you see code like `[str1 isKindOfClass:[NSString class]]` and `isMemberOfClass` often. Example also includes `isEqualToString`.  On macOS, the compiler could make optimization decisions.  With a script from `frida.re` I asked for an NSString. The ObjC run-time never gave me a pure `NSString`.  I was always given a subclass by `macOS`.  The `isKindOfClass` helped test the code before I treated as a certain `Class`.
+
+#### objc_8_respond_to_selector.m
+`[StockHolding respondsToSelector:shareNameMethod]` is very useful when working with `run-time ObjC` code like `swizzling` or `introspection`.
+
+#### objc_9_nsdictionary.m
+Ways to `initialize` and `enumerate` through `NSDictionary`.  Also illustrates the `valueForKey`API.
+
+#### objc_10_nsdictionary_literal_syntax.m
+Ways to `initialize NSDictionary` with `C` style literal syntax.
+
+#### objc_11_block.m
+In my own mind `blocks` are close cousins of `closure` and `function pointers`.  With Objective-C `Blocks` you can pass around code as you would pass around data.  The syntax is ugly and hard to master.  But you can use a `typedef` to make the declaration of a `Block` simpler.
+
+#### objc_11_nsdate.m
+Use `NSDateFormatter` to create a pretty date.  Subtract `NSDate` values with `timeIntervalSinceDate`.
+
+#### objc_12_nstimeInterval.m
+A great way to print time information in different formats. Example: `2 days, 13 hours, 43 minutes, 42 seconds`.
 
 ### 2. Run Loop and Unused
 Created a simple Class to initialize. The instance method was invoked in the `[NSTimer scheduledTimerWithTimeInterval` call.  Bonus: the `timer` response was set to `__unused` to suppress the compiler warning.
@@ -66,8 +107,6 @@ I love the `@property` statement. You magically get a setter: `[machine setTemp:
 ### 5. Designated Initialiser
 This code example shows `inheritance` and more specifically the `designated initialiser`.  That is the most important initialiser that each Object uses.  There are lots of cases where people can initialise an object incorrectly that must be addressed with code.
 
-### 6. Blocks
-In my own mind `blocks` are close cousins of `closure` and `function pointers`.  With Objective-C `Blocks` you can pass around code as you would pass around data.  The syntax is horrible to use.  But you can use a `typedef` to make the declaration of a `Block` simpler.
 
 ### 7. Use a debugger to invoke Blocks
 Examples of writing Objective-C `Blocks` and calling them with `lldb`.  
@@ -97,8 +136,34 @@ https://stackoverflow.com/questions/14495536/how-to-initialize-const-member-vari
 ```
 https://stackoverflow.com/questions/424104/can-i-access-private-members-from-outside-the-class-without-using-friends
 ```
-### 13. ObjC NSString and isKindOfClass
-I wrote this code after answering a question on https://github.com/frida/frida/issues/607.  I tried playing with `NSString` and found on macOS that the platform made optimization decisions that would break Frida hooks placed on the Objective-C method names.  When asking for an NSString, the compiler never actually gave me a pure `NSString`.  I was always given a subclass by `macOS`.  The `isKindOfClass`, `[str1 superclass]` and `[str1 class]` were really useful to find out the reality.
+
+### 16. Class introspection
+The example code expanded on Objective-C's runtime. It showed how to call a `@selector` via `objc_msgSend`.  It also showed the `Class` and `Method` types and the `class_getSuperclass`, `class_getInstanceMethod` and `respondsToSelector` functions.
+
+### 17. Threading in C with PThreads
+I enjoyed writing this code; I started two background threads.  Both printed a message to logs.  The goal was to use a debugger to `suspend thread`. But I ended up also trying to `kill thread`.
+
+### 18. Threading in ObjC with NSOperationQueue
+ObjC had so many APIs available for `multi-threaded` apps.  I started with `NSOperationQueue`.
+
+### 23.Objective-C's Run-time
+Add Class, iVar and Method all at runtime. Magic.
+
+### 24.Objective-C NSDictionary
+I found an app using an NSDictionary to store sensitive information.  I this piece of code is from Apple and shows how the compiler will breakdown higher level code into more primitive Objective-C types `id` and it will always go back to `NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects`.
+
+### 19. Threading in ObjC with GCD, NSLock and Semaphores
+I used `Semaphores` to make sure code waited for background threads to complete. I called a `Block` on each thread with a custom `Object`. I hit an error which related to `NSMutableArray` not being `thread-safe`.
+```
+malloc: Double free of object
+malloc: *** set a breakpoint in malloc_error_break to debug
+```
+I used an `NSLock` to stop it crashing:
+```
+  [arrayLock lock]; // NSMutableArray isn't thread-safe
+  [fishyArray addObject:[fishObj name]];
+  [arrayLock unlock];
+```
 
 ### 14. Structs
 This example covered `Structs` and how C offered the flexibility to init on the `heap` (with `malloc`,  and `calloc`) or `stack`  and simple techniques to initialise a `struct`.  This included using a `char buffer` with `memcpy` and `memset`.
@@ -128,27 +193,7 @@ References:
 // https://pilky.me/dynamic-tips-tricks-with-objective-c/
 // https://mikeash.com/tmp/Runtime%20API%20Tour.pdf
 ```
-### 16. Class introspection
-The example code expanded on Objective-C's runtime. It showed how to call a `@selector` via `objc_msgSend`.  It also showed the `Class` and `Method` types and the `class_getSuperclass`, `class_getInstanceMethod` and `respondsToSelector` functions.
 
-### 17. Threading in C with PThreads
-I enjoyed writing this code; I started two background threads.  Both printed a message to logs.  The goal was to use a debugger to `suspend thread`. But I ended up also trying to `kill thread`.
-
-### 18. Threading in ObjC with NSOperationQueue
-ObjC had so many APIs available for `multi-threaded` apps.  I started with `NSOperationQueue`.
-
-### 19. Threading in ObjC with GCD, NSLock and Semaphores
-I used `Semaphores` to make sure code waited for background threads to complete. I called a `Block` on each thread with a custom `Object`. I hit an error which related to `NSMutableArray` not being `thread-safe`.
-```
-malloc: Double free of object
-malloc: *** set a breakpoint in malloc_error_break to debug
-```
-I used an `NSLock` to stop it crashing:
-```
-  [arrayLock lock]; // NSMutableArray isn't thread-safe
-  [fishyArray addObject:[fishObj name]];
-  [arrayLock unlock];
-```
 
 ### 20. C Fork
 The most basic example for C's Fork API.
@@ -159,11 +204,6 @@ I really enjoyed writing this C++ code.  If you have ever written code and found
 ### 22. C++ Doubly-Linked List
 I wanted to show the advantage of a Doubly-Linked list, in terms of deleting a Node.
 
-### 23.Objective-C's Run-time
-Add Class, iVar and Method all at runtime. Magic.
-
-### 24.Objective-C NSDictionary
-I found an app using an NSDictionary to store sensitive information.  I this piece of code is from Apple and shows how the compiler will breakdown higher level code into more primitive Objective-C types `id` and it will always go back to `NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects`.
 
 ### 25.C Byte Array to Objective-C
 Piece of code to help understand how I could manipulate code with Frida's Objective-C interface.
