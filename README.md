@@ -1,26 +1,59 @@
-# Bits and bytes
-## Mostly ObjC, C++ and C
-### 0. A simple Class
-This Objective-C Class showed:
+# Bits and Bytes
+Snippets of code ObjC, C++, C, Swift and Python code
 
-- An `NSMutableArray`
-- The underscore syntax for instance variables
-- `@property` is a great way to `set/get` instance variables
+<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-The code was partly inspired by the article _Separating ivars from properties_ [here][82068adb].
+- [Objective-C](#objective-c)
+		- [objc_0_simple_class.m](#objc0simpleclassm)
+		- [objc_1_nsurlsession_synchronous_request.m](#objc1nsurlsessionsynchronousrequestm)
+		- [objc_2_nsurlsession_cookies.m](#objc2nsurlsessioncookiesm)
+	- [2. Run Loop and Unused](#2-run-loop-and-unused)
+	- [3. NSNotificationCenter](#3-nsnotificationcenter)
+	- [4. Override Super Init and Property magic](#4-override-super-init-and-property-magic)
+	- [5. Designated Initialiser](#5-designated-initialiser)
+	- [6. Blocks](#6-blocks)
+	- [7. Use a debugger to invoke Blocks](#7-use-a-debugger-to-invoke-blocks)
+	- [8. C++ Namespace](#8-c-namespace)
+	- [9. C++ Stack vs Heap](#9-c-stack-vs-heap)
+	- [10. C++ Constructor & Destructor](#10-c-constructor-destructor)
+	- [11. C++ Time APIs](#11-c-time-apis)
+	- [12. C++ Encapsulation](#12-c-encapsulation)
+	- [13. ObjC NSString and isKindOfClass](#13-objc-nsstring-and-iskindofclass)
+	- [14. Structs](#14-structs)
+	- [15. Swizzling](#15-swizzling)
+	- [16. Class introspection](#16-class-introspection)
+	- [17. Threading in C with PThreads](#17-threading-in-c-with-pthreads)
+	- [18. Threading in ObjC with NSOperationQueue](#18-threading-in-objc-with-nsoperationqueue)
+	- [19. Threading in ObjC with GCD, NSLock and Semaphores](#19-threading-in-objc-with-gcd-nslock-and-semaphores)
+	- [20. C Fork](#20-c-fork)
+	- [21. C++ Linked List](#21-c-linked-list)
+	- [22. C++ Doubly-Linked List](#22-c-doubly-linked-list)
+	- [23.Objective-C's Run-time](#23objective-cs-run-time)
+	- [24.Objective-C NSDictionary](#24objective-c-nsdictionary)
+	- [25.C Byte Array to Objective-C](#25c-byte-array-to-objective-c)
+	- [26.C Bitwise Operators](#26c-bitwise-operators)
+	- [27.C Vulnerable strcpy](#27c-vulnerable-strcpy)
+	- [28a.C Invoke shell from code](#28ac-invoke-shell-from-code)
+	- [28b.ASM Shellcode for execve](#28basm-shellcode-for-execve)
+	- [29.ASM compile for ARM64 or ARM32](#29asm-compile-for-arm64-or-arm32)
+	- [30.C Syscall](#30c-syscall)
+	- [31.Writing in-line assembly code in C](#31writing-in-line-assembly-code-in-c)
+	- [32.Objective-C Respond to Selector](#32objective-c-respond-to-selector)
+
+<!-- /TOC -->
+## Objective-C
+#### objc_0_simple_class.m
+This Objective-C Class showed an `NSMutableArray`, the underscore syntax for instance variables. Also, the used `@property` as a great way to `set/get` instance variables.  The code was partly inspired by the article _Separating ivars from properties_ [here][82068adb].
 
   [82068adb]: https://useyourloaf.com/blog/understanding-your-objective-c-self/ "Objective_c_naming"
 
-### 1. Simple synchronous request
-Implemented `NSURLSessionDataTask` to send a HTTP request from the command line.
-`Semaphores` were used to _wait until_ the task completes.
+#### objc_1_nsurlsession_synchronous_request.m
+Implemented `NSURLSessionDataTask` to send a HTTP request from the command line.  `Semaphores` were used to _wait until_ the task completes.
 
-```
-https://www.objc.io/issues/5-ios7/from-nsurlconnection-to-nsurlsession/
-https://developer.apple.com/documentation/foundation/nsurlsession/1407613-datataskwithrequest
-http://demianturner.com/2016/08/synchronous-nsurlsession-in-obj-c/
-https://stackoverflow.com/questions/22206274/handle-http-error-with-nsurlsession
-```
+#### objc_2_nsurlsession_cookies.m
+Shows how to parse `cookies` from `[NSHTTPCookieStorage sharedHTTPCookieStorage]` after getting a server response.
+
+
 ### 2. Run Loop and Unused
 Created a simple Class to initialize. The instance method was invoked in the `[NSTimer scheduledTimerWithTimeInterval` call.  Bonus: the `timer` response was set to `__unused` to suppress the compiler warning.
 
