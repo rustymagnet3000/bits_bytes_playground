@@ -1,14 +1,7 @@
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-#endif
-
-/*
-    https://stackoverflow.com/questions/695980/how-do-i-declare-class-level-properties-in-objective-c
-    WWDC 2016/XCode 8 (what's new in LLVM session @5:05) added to ObjC after being introduced in Swift.
- */
+#import <Foundation/Foundation.h>
 
 @interface Foobar : NSObject
-@property (class) int result;
+  @property (class) int result;
 @end
 
 @implementation Foobar
@@ -34,4 +27,3 @@ int main(void) {
         NSLog(@"Result: %d",[Foobar result]);      // getter called
     }
 }
-
