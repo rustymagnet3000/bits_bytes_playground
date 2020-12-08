@@ -4,7 +4,7 @@ Snippets of code ObjC, C++, C, Swift and Python code
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Objective-C](#objective-c)
-	- [objc_0_simple_class](#objc0simpleclass)
+	- [objc_0_simple_class.m](#objc0simpleclassm)
 	- [objc_1_nsurlsession_synchronous_request.m](#objc1nsurlsessionsynchronousrequestm)
 	- [objc_2_nsurlsession_cookies.m](#objc2nsurlsessioncookiesm)
 	- [objc_3_nsurlsession_post_request.m](#objc3nsurlsessionpostrequestm)
@@ -23,6 +23,8 @@ Snippets of code ObjC, C++, C, Swift and Python code
 	- [objc_15_progress_bar_and_nsnotification_center_run_loop.m](#objc15progressbarandnsnotificationcenterrunloopm)
 	- [objc_16_uiview_from_code.m](#objc16uiviewfromcodem)
 	- [objc_17_global_dispatch_gcd_pthreads.m](#objc17globaldispatchgcdpthreadsm)
+	- [objc_18_writing_a_category__to_return_bytes_from_nsdata.m](#objc18writingacategorytoreturnbytesfromnsdatam)
+	- [objc_19_runtime_add_ivar_add_method_to_class.m](#objc19runtimeaddivaraddmethodtoclassm)
 - [C++](#c)
 		- [8. C++ Namespace](#8-c-namespace)
 		- [9. C++ Stack vs Heap](#9-c-stack-vs-heap)
@@ -52,7 +54,7 @@ Snippets of code ObjC, C++, C, Swift and Python code
 
 <!-- /TOC -->
 ## Objective-C
-### objc_0_simple_class
+### objc_0_simple_class.m
 This Objective-C Class showed an `NSMutableArray`, the underscore syntax for instance variables. Also, the used `@property` as a great way to `set/get` instance variables.  The code was partly inspired by the article _Separating ivars from properties_ [here][82068adb].
 
   [82068adb]: https://useyourloaf.com/blog/understanding-your-objective-c-self/ "Objective_c_naming"
@@ -111,6 +113,11 @@ Create a `UIView` in five lines of code.
 ### objc_17_global_dispatch_gcd_pthreads.m
 An `ObjC` class that uses `GCD`, `Locks` and `NSTimeInterval`.
 
+### objc_18_writing_a_category__to_return_bytes_from_nsdata.m
+Added a `Category` to `NSData` without subclassing `NSData`.  Takes a `byte array`. Initialize an `NSData` object.   Similiar to `Extensions` in Swift.
+
+### objc_19_runtime_add_ivar_add_method_to_class.m
+Reference is from https://gist.github.com/mikeash/7603035.  where he adds a `method` and `ivar` at run-time.  Sounds simple but `Automatic Reference Counting (ARC)` stopped me for a long time. The code won't compile with ARC on.
 
 ## C++
 
