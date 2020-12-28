@@ -7,18 +7,31 @@
 #define KILL_TIMER 6
 @import Foundation;
 #include <pthread.h>
+#include <mach/mach.h>
 
-/* https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/CreatingThreads/CreatingThreads.html */
-@implementation FoobarThreads:NSObject
+@interface FoobarThreads : NSObject
+    @property (class, nonatomic, strong) NSMutableArray *pets;
+@end
+
+@implementation FoobarThreads
+
+static NSMutableArray *_pets;
++ (NSMutableArray *)pets{
+    return _pets;
+}
+
++(void)setPets:(NSMutableArray *)newPet{
+    _pets = newPet;
+}
 
 -(instancetype)init{
     self = [super init];
     if (self) {
-        NSThread* myThread = [[NSThread alloc]  initWithTarget:self
-                                                selector:@selector(sleepingMethod)
+        NSThread* thread = [[NSThread alloc]  initWithTarget:self
+                                                selector:@selector(setThreadNameThenSleep)
                                                 object:nil];
-        [myThread start];
-
+        [thread setThreadPriority:0.20];
+        [thread start];
     }
     return self;
 }
@@ -30,9 +43,12 @@
     return tidStr;
 }
 
--(void)sleepingMethod{
+-(void)setThreadNameThenSleep{
     NSTimeInterval intervalToSleep = 20.0;
-    NSLog (@"[*]Thread ID: %@", [self getThreadID]);
+    NSString *threadName = [_pets lastObject];
+    threadName == nil ?  threadName = @"Panda" : [_pets removeLastObject];
+    [[NSThread currentThread] setName:threadName];
+    NSLog (@"[*]Thread name:\t%@   \t\tID: %@", [[NSThread currentThread] name], [self getThreadID]);
     [NSThread sleepForTimeInterval:intervalToSleep];
 }
 
@@ -43,14 +59,17 @@ int main(void) {
     
     @autoreleasepool{
 
+        [FoobarThreads setPets:[NSMutableArray arrayWithObjects:@"Dog   ", @"Cat   ", @"Baboon", @"Fish  ", nil]];
+        NSLog(@"Pets\t %@", FoobarThreads.pets);
+        
         [[NSThread mainThread] setName:@"The main thread"];
         NSLog (@"[*]Am I multi-threaded? \t%@", [NSThread isMultiThreaded] == 0 ?  @"YES" : @"NO");
         NSLog (@"[*]Am I the main thread?\t%@", [NSThread isMainThread] == 1 ?  @"YES" : @"NO");
-        
+
         for (ushort i = 0; i < MAX_THREADS; i++) {
             __unused FoobarThreads *newObjectWithThread = [FoobarThreads new];
         }
-        
+
         NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
         NSCalendar *currentCalendar = [NSCalendar currentCalendar];
         NSDate *startPlusKillTimer = [currentCalendar dateByAddingUnit:NSCalendarUnitSecond
@@ -58,21 +77,27 @@ int main(void) {
                                                                   toDate:[NSDate date]
                                                                  options:NSCalendarMatchNextTime];
         [runLoop runUntilDate:startPlusKillTimer];
-        NSLog (@"[*]Auto-release about to fire");
+
 
     }
     return 0;
 }
 
 
+
 /* 
-	[*]Am I multi-threaded? 	YES
-	[*]Am I the main thread?	YES
-	[*]Thread ID: 0x4ef7ab
-	[*]Thread ID: 0x4ef7ac
-	[*]Thread ID: 0x4ef7ad
-	[*]Thread ID: 0x4ef7ae
-	[*]Thread ID: 0x4ef7af
-	[*]Auto-release about to fire
-	Program ended with exit code: 0
+Pets	 (
+    "Dog   ",
+    "Cat   ",
+    Baboon,
+    "Fish  "
+)
+[*]Am I multi-threaded? 	YES
+[*]Am I the main thread?	YES
+[*]Thread name:	Fish     		ID: 0x592f86
+[*]Thread name:	Baboon   		ID: 0x592f89
+[*]Thread name:	Dog      		ID: 0x592f8a
+[*]Thread name:	Cat      		ID: 0x592f88
+[*]Thread name:	Panda   		ID: 0x592f87
+Program ended with exit code: 0
 */
