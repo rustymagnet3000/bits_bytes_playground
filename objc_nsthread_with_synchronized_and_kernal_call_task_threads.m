@@ -130,19 +130,16 @@ int main(void) {
 
 
 /*
-
-2020-12-29 16:21:05.619319+0000 objc_play[95385:6467089] [*]Thread name:	Baboon   		ID: 🐝0x62ae11
-2020-12-29 16:21:05.619322+0000 objc_play[95385:6467091] [*]Thread name:	Panda   		ID: 🐝0x62ae13
-2020-12-29 16:21:05.619331+0000 objc_play[95385:6467088] [*]Thread name:	Fish     		ID: 🐝0x62ae10
-2020-12-29 16:21:05.619323+0000 objc_play[95385:6467092] [*]Thread name:	Dog      		ID: 🐝0x62ae14
-2020-12-29 16:21:05.621409+0000 objc_play[95385:6467090] [*]Thread name:	Cat      		ID: 🐝0x62ae12
-2020-12-29 16:21:07.629013+0000 objc_play[95385:6466711] 🐝mach thread 775		tid:0x62ac97		The main 
-2020-12-29 16:21:07.629159+0000 objc_play[95385:6466711] 🐝mach thread 4611		tid:0x62ae0f		<None>
-2020-12-29 16:21:07.629226+0000 objc_play[95385:6466711] 🐝mach thread 3843		tid:0x62ae10		Fish  
-2020-12-29 16:21:07.629283+0000 objc_play[95385:6466711] 🐝mach thread 4099		tid:0x62ae11		Baboon
-2020-12-29 16:21:07.629420+0000 objc_play[95385:6466711] 🐝mach thread 10499		tid:0x62ae12		Cat   
-2020-12-29 16:21:07.629540+0000 objc_play[95385:6466711] 🐝mach thread 10243		tid:0x62ae13		Panda
-2020-12-29 16:21:07.629720+0000 objc_play[95385:6466711] 🐝mach thread 9987		tid:0x62ae14		Dog   
-2020-12-29 16:21:07.629800+0000 objc_play[95385:6466711] 🐝mach thread 15363		tid:0x62ae15		<None>
-Program ended with exit code: 0
-*/
+2020-12-30 12:36:26.857008+0000 objc_play[2508:6556039] [*]Thread name:	Panda		ID: 🐝0x640987
+2020-12-30 12:36:26.857008+0000 objc_play[2508:6556040] [*]Thread name:	Baboon		ID: 🐝0x640988
+2020-12-30 12:36:26.857008+0000 objc_play[2508:6556041] [*]Thread name:	Dog   		ID: 🐝0x640989
+2020-12-30 12:36:26.857062+0000 objc_play[2508:6556037] [*]Thread name:	Fish  		ID: 🐝0x640985
+2020-12-30 12:36:26.858919+0000 objc_play[2508:6556038] [*]Thread name:	Cat   		ID: 🐝0x640986
+2020-12-30 12:36:28.866305+0000 objc_play[2508:6555670] 🐝mach thread 775		tid:0x640816	< Main thread >
+2020-12-30 12:36:28.866444+0000 objc_play[2508:6555670] 🐝mach thread 3587		tid:0x640984	< not named >
+2020-12-30 12:36:28.866543+0000 objc_play[2508:6555670] 🐝mach thread 4099		tid:0x640985	Fish  
+2020-12-30 12:36:28.866638+0000 objc_play[2508:6555670] 🐝mach thread 3843		tid:0x640986	Cat   
+2020-12-30 12:36:28.866711+0000 objc_play[2508:6555670] 🐝mach thread 5379		tid:0x640987	Panda
+2020-12-30 12:36:28.866765+0000 objc_play[2508:6555670] 🐝mach thread 5891		tid:0x640988	Baboon
+2020-12-30 12:36:28.866816+0000 objc_play[2508:6555670] 🐝mach thread 6403		tid:0x640989	Dog   
+2020-12-30 12:36:28.866892+0000 objc_play[2508:6555670] 🐝mach thread 17667		tid:0x64098a	< not named >
