@@ -1,5 +1,11 @@
 # Xcode
+<<<<<<< HEAD
 .DS_Store
+=======
+# .DS_Store # removed as I set at global level
+.idea
+
+>>>>>>> python_threading
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
