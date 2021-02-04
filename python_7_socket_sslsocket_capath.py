@@ -16,7 +16,7 @@ with socket() as sock:
     context.verify_flags = 0x80000
     context.load_verify_locations(cafile=None,
                                   cadata=None,
-                                  capath="/Users/a9006113/Coding/python_openssl_playground/support/ca_files/")
+                                  capath="ca_files/")
     with context.wrap_socket(sock=sock,
                              server_hostname=hostname,
                              do_handshake_on_connect=False) as ssl_sock:
