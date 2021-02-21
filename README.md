@@ -1,219 +1,199 @@
-<<<<<<< HEAD
 # Bits and bytes
-## Mostly ObjC, C++ and C
-### 0. A simple Class
-This Objective-C Class showed:
 
-- An `NSMutableArray`
-- The underscore syntax for instance variables
-- `@property` is a great way to `set/get` instance variables
+Snippets of Objective-C, C, C++, asm, Swift and Python
 
-The code was partly inspired by the article _Separating ivars from properties_ [here][82068adb].
-
-  [82068adb]: https://useyourloaf.com/blog/understanding-your-objective-c-self/ "Objective_c_naming"
-
-### 1. Simple synchronous request
-Implemented `NSURLSessionDataTask` to send a HTTP request from the command line.
-`Semaphores` were used to _wait until_ the task completes.
-
-```
-https://www.objc.io/issues/5-ios7/from-nsurlconnection-to-nsurlsession/
-https://developer.apple.com/documentation/foundation/nsurlsession/1407613-datataskwithrequest
-http://demianturner.com/2016/08/synchronous-nsurlsession-in-obj-c/
-https://stackoverflow.com/questions/22206274/handle-http-error-with-nsurlsession
-```
-### 2. Run Loop and Unused
-Created a simple Class to initialize. The instance method was invoked in the `[NSTimer scheduledTimerWithTimeInterval` call.  Bonus: the `timer` response was set to `__unused` to suppress the compiler warning.
-
-### 3. NSNotificationCenter
-When the user went into System Preferences and changed the `Timezone` the running Objective-C program outputted a message.   The instance method was invoked on `[NSNotificationCenter defaultCenter] addObserver:logger`.  Finally it was told to act when `name:NSSystemTimeZoneDidChangeNotification`.
-
-### 4. Override Super Init and Property magic
-I love the `@property` statement. You magically get a setter: `[machine setTemp: 999]`     and the _dot notation_ of a getter `machine.Temp`.  If your Objective-C class has no `init` statement - the `NSObject` initialiser takes over.  It zeros out Ints and floats and sets Strings to nil.  You can override this function, an example is included here.  Notice the `[self setVoltage: 180]` instead of `voltage = 180`.
-
-### 5. Designated Initialiser
-This code example shows `inheritance` and more specifically the `designated initialiser`.  That is the most important initialiser that each Object uses.  There are lots of cases where people can initialise an object incorrectly that must be addressed with code.
-
-### 6. Blocks
-In my own mind `blocks` are close cousins of `closure` and `function pointers`.  With Objective-C `Blocks` you can pass around code as you would pass around data.  The syntax is horrible to use.  But you can use a `typedef` to make the declaration of a `Block` simpler.
-
-### 7. Use a debugger to invoke Blocks
-Examples of writing Objective-C `Blocks` and calling them with `lldb`.  
-
-### 8. C++ Namespace
-A nice feature of C++ compared to Objective-C. You could set a C++ Namespace to ensure your class declaration never conflicted with any definitions that may have the same class name.
-
-### 9. C++ Stack vs Heap
-Objective-C is all `Heap`.  Only Blocks are on the `Stack`.  By contrast, C++ gave you full control over declaring an Object on the `Heap` or the `Stack`.
-
-### 10. C++ Constructor & Destructor
-=======
-# Bits and Bytes
-Snippets of code ObjC, C++, C, Swift and Python code
-
-<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+<!-- TOC depthfrom:2 depthto:4 withlinks:true updateonsave:true orderedlist:false -->
 
 - [Objective-C](#objective-c)
-	- [objc_0_simple_class.m](#objc0simpleclassm)
-	- [objc_1_nsurlsession_synchronous_request.m](#objc1nsurlsessionsynchronousrequestm)
-	- [objc_2_nsurlsession_cookies.m](#objc2nsurlsessioncookiesm)
-	- [objc_3_nsurlsession_post_request.m](#objc3nsurlsessionpostrequestm)
-	- [objc_4_simple_property.m](#objc4simplepropertym)
-	- [objc_5_init.m](#objc5initm)
-	- [objc_6_init_and_property.m](#objc6initandpropertym)
-	- [objc_7_iskindof.m](#objc7iskindofm)
-	- [objc_8_respond_to_selector.m](#objc8respondtoselectorm)
-	- [objc_9_nsdictionary.m](#objc9nsdictionarym)
-	- [objc_10_nsdictionary_literal_syntax.m](#objc10nsdictionaryliteralsyntaxm)
-	- [objc_11_block.m](#objc11blockm)
-	- [objc_11_nsdate.m](#objc11nsdatem)
-	- [objc_12_nstimeInterval.m](#objc12nstimeintervalm)
-	- [objc_13_static_class_property.m](#objc13staticclasspropertym)
-	- [objc_14_nsurlsession_with_tiny_delegate.m](#objc14nsurlsessionwithtinydelegatem)
-	- [objc_15_progress_bar_and_nsnotification_center_run_loop.m](#objc15progressbarandnsnotificationcenterrunloopm)
-	- [objc_16_uiview_from_code.m](#objc16uiviewfromcodem)
-	- [objc_17_global_dispatch_gcd_pthreads.m](#objc17globaldispatchgcdpthreadsm)
-	- [objc_18_writing_a_category__to_return_bytes_from_nsdata.m](#objc18writingacategorytoreturnbytesfromnsdatam)
-	- [objc_19_runtime_add_ivar_add_method_to_class.m](#objc19runtimeaddivaraddmethodtoclassm)
+    - [objc_0_simple_class.m](#objc_0_simple_classm)
+    - [objc_1_nsurlsession_synchronous_request.m](#objc_1_nsurlsession_synchronous_requestm)
+    - [objc_2_nsurlsession_cookies.m](#objc_2_nsurlsession_cookiesm)
+    - [objc_3_nsurlsession_post_request.m](#objc_3_nsurlsession_post_requestm)
+    - [objc_4_simple_property.m](#objc_4_simple_propertym)
+    - [objc_5_init.m](#objc_5_initm)
+    - [objc_6_init_and_property.m](#objc_6_init_and_propertym)
+    - [objc_7_iskindof.m](#objc_7_iskindofm)
+    - [objc_8_respond_to_selector.m](#objc_8_respond_to_selectorm)
+    - [objc_9_nsdictionary.m](#objc_9_nsdictionarym)
+    - [objc_10_nsdictionary_literal_syntax.m](#objc_10_nsdictionary_literal_syntaxm)
+    - [objc_11_block.m](#objc_11_blockm)
+    - [objc_11_nsdate.m](#objc_11_nsdatem)
+    - [objc_12_nstimeInterval.m](#objc_12_nstimeintervalm)
+    - [objc_13_static_class_property.m](#objc_13_static_class_propertym)
+    - [objc_14_nsurlsession_with_tiny_delegate.m](#objc_14_nsurlsession_with_tiny_delegatem)
+    - [objc_15_progress_bar_and_nsnotification_center_run_loop.m](#objc_15_progress_bar_and_nsnotification_center_run_loopm)
+    - [objc_16_uiview_from_code.m](#objc_16_uiview_from_codem)
+    - [objc_17_global_dispatch_gcd_pthreads.m](#objc_17_global_dispatch_gcd_pthreadsm)
+    - [objc_18_writing_a_category__to_return_bytes_from_nsdata.m](#objc_18_writing_a_category__to_return_bytes_from_nsdatam)
+    - [objc_19_runtime_add_ivar_add_method_to_class.m](#objc_19_runtime_add_ivar_add_method_to_classm)
 - [C++](#c)
-		- [8. C++ Namespace](#8-c-namespace)
-		- [9. C++ Stack vs Heap](#9-c-stack-vs-heap)
-		- [10. C++ Constructor & Destructor](#10-c-constructor-destructor)
-		- [11. C++ Time APIs](#11-c-time-apis)
-		- [12. C++ Encapsulation](#12-c-encapsulation)
-	- [16. Class introspection](#16-class-introspection)
-	- [17. Threading in C with PThreads](#17-threading-in-c-with-pthreads)
-	- [18. Threading in ObjC with NSOperationQueue](#18-threading-in-objc-with-nsoperationqueue)
-	- [23.Objective-C's Run-time](#23objective-cs-run-time)
-	- [24.Objective-C NSDictionary](#24objective-c-nsdictionary)
-	- [19. Threading in ObjC with GCD, NSLock and Semaphores](#19-threading-in-objc-with-gcd-nslock-and-semaphores)
-	- [14. Structs](#14-structs)
-	- [15. Swizzling](#15-swizzling)
-	- [20. C Fork](#20-c-fork)
-	- [21. C++ Linked List](#21-c-linked-list)
-	- [22. C++ Doubly-Linked List](#22-c-doubly-linked-list)
-	- [25.C Byte Array to Objective-C](#25c-byte-array-to-objective-c)
-	- [26.C Bitwise Operators](#26c-bitwise-operators)
-	- [27.C Vulnerable strcpy](#27c-vulnerable-strcpy)
-	- [28a.C Invoke shell from code](#28ac-invoke-shell-from-code)
-	- [28b.ASM Shellcode for execve](#28basm-shellcode-for-execve)
-	- [29.ASM compile for ARM64 or ARM32](#29asm-compile-for-arm64-or-arm32)
-	- [30.C Syscall](#30c-syscall)
-	- [31.Writing in-line assembly code in C](#31writing-in-line-assembly-code-in-c)
-	- [32.Objective-C Respond to Selector](#32objective-c-respond-to-selector)
+    - [c_plus_plus_1_namespace](#c_plus_plus_1_namespace)
+    - [c_plus_plus_2_stack_vs_heap](#c_plus_plus_2_stack_vs_heap)
+    - [c_plus_plus_3_constructor](#c_plus_plus_3_constructor)
+    - [c_plus_plus_4_time](#c_plus_plus_4_time)
+    - [c_plus_plus_5_encapsulation](#c_plus_plus_5_encapsulation)
+    - [ObjC NSString and isKindOfClass](#objc-nsstring-and-iskindofclass)
+    - [Class introspection](#class-introspection)
+    - [Threading in C with PThreads](#threading-in-c-with-pthreads)
+    - [Threading in ObjC with NSOperationQueue](#threading-in-objc-with-nsoperationqueue)
+    - [Objective-C's Run-time](#objective-cs-run-time)
+    - [Objective-C NSDictionary](#objective-c-nsdictionary)
+    - [Threading in ObjC with GCD, NSLock and Semaphores](#threading-in-objc-with-gcd-nslock-and-semaphores)
+    - [Structs](#structs)
+    - [Swizzling](#swizzling)
+    - [Class introspection](#class-introspection)
+    - [Threading in C with PThreads](#threading-in-c-with-pthreads)
+    - [Threading in ObjC with NSOperationQueue](#threading-in-objc-with-nsoperationqueue)
+    - [Threading in ObjC with GCD, NSLock and Semaphores](#threading-in-objc-with-gcd-nslock-and-semaphores)
+    - [C Fork](#c-fork)
+    - [C++ Linked List](#c-linked-list)
+    - [C++ Doubly-Linked List](#c-doubly-linked-list)
+    - [Objective-C's Run-time](#objective-cs-run-time)
+    - [Objective-C NSDictionary](#objective-c-nsdictionary)
+    - [C Byte Array to Objective-C](#c-byte-array-to-objective-c)
+    - [C Bitwise Operators](#c-bitwise-operators)
+    - [C Vulnerable strcpy](#c-vulnerable-strcpy)
+    - [a.C Invoke shell from code](#ac-invoke-shell-from-code)
+    - [b.ASM Shellcode for execve](#basm-shellcode-for-execve)
+    - [ASM compile for ARM64 or ARM32](#asm-compile-for-arm64-or-arm32)
+    - [C Syscall](#c-syscall)
+    - [Writing in-line assembly code in C](#writing-in-line-assembly-code-in-c)
+    - [Objective-C Respond to Selector](#objective-c-respond-to-selector)
 
 <!-- /TOC -->
+
 ## Objective-C
+
 ### objc_0_simple_class.m
+
 This Objective-C Class showed an `NSMutableArray`, the underscore syntax for instance variables. Also, the used `@property` as a great way to `set/get` instance variables.  The code was partly inspired by the article _Separating ivars from properties_ [here][82068adb].
 
   [82068adb]: https://useyourloaf.com/blog/understanding-your-objective-c-self/ "Objective_c_naming"
 
 ### objc_1_nsurlsession_synchronous_request.m
+
 Implemented `NSURLSessionDataTask` to send a HTTP request from the command line.  `Semaphores` were used to _wait until_ the task completes.
 
 ### objc_2_nsurlsession_cookies.m
+
 Shows how to parse `cookies` from `[NSHTTPCookieStorage sharedHTTPCookieStorage]` after getting a server response.
 
 ### objc_3_nsurlsession_post_request.m
+
 Creates a `POST` request for `NSURLSession`. Uses `enumerateKeysAndObjectsUsingBlock` to add request parameters.
 
 ### objc_4_simple_property.m
+
 How to use a `Property` to auto generate `getters` and `setters`.  You magically get a setter: `[machine setTemp: 999]` and the _dot notation_ of a getter `machine.Temp`.  If your Objective-C class has no `init` statement - the `NSObject` initialiser takes over.  It zeros out Ints and floats and sets Strings to nil.
 
 ### objc_5_init.m
+
 Use a custom `Init` call to create a `Class`.  This code example shows `inheritance` and a `designated initialiser`.  That is the most important initialiser that each Object uses.
 
 ### objc_6_init_and_property.m
+
 Nice way to combine `Init` and `Set` a `Property` at the same time.
 
 ### objc_7_iskindof.m
+
 When working with `ObjC` and `Classes` and `subclasses` you see code like `[str1 isKindOfClass:[NSString class]]` and `isMemberOfClass` often. Example also includes `isEqualToString`.  On macOS, the compiler could make optimization decisions.  With a script from `frida.re` I asked for an NSString. The ObjC run-time never gave me a pure `NSString`.  I was always given a subclass by `macOS`.  The `isKindOfClass` helped test the code before I treated as a certain `Class`.
 
 ### objc_8_respond_to_selector.m
+
 `[StockHolding respondsToSelector:shareNameMethod]` is very useful when working with `run-time ObjC` code like `swizzling` or `introspection`.
 
 ### objc_9_nsdictionary.m
+
 Ways to `initialize` and `enumerate` through `NSDictionary`.  Also illustrates the `valueForKey`API.
 
 ### objc_10_nsdictionary_literal_syntax.m
+
 Ways to `initialize NSDictionary` with `C` style literal syntax.
 
 ### objc_11_block.m
+
 In my own mind `blocks` are close cousins of `closure` and `function pointers`.  With Objective-C `Blocks` you can pass around code as you would pass around data.  The syntax is ugly and hard to master.  But you can use a `typedef` to make the declaration of a `Block` simpler.
 
 ### objc_11_nsdate.m
+
 Use `NSDateFormatter` to create a pretty date.  Subtract `NSDate` values with `timeIntervalSinceDate`.
 
 ### objc_12_nstimeInterval.m
+
 A great way to print time information in different formats. Example: `2 days, 13 hours, 43 minutes, 42 seconds`.
 
 ### objc_13_static_class_property.m
-WWDC 2016/XCode 8 (what's new in LLVM session @5:05) `Static Class` added to ObjC after being introduced in Swift. https://stackoverflow.com/questions/695980/how-do-i-declare-class-level-properties-in-objective-c.
+
+WWDC 2016/XCode 8 (what's new in LLVM session @5:05) `Static Class` added to ObjC after being introduced in Swift. <https://stackoverflow.com/questions/695980/how-do-i-declare-class-level-properties-in-objective-c>.
 
 ### objc_14_nsurlsession_with_tiny_delegate.m
+
 Tiny piece of code to show a `Delegate` piece of code - and the `didReceiveChallenge` method - firing when using `NSURLSession`.  They are glued together with this line of code: `[NSURLSession sessionWithConfiguration:config delegate:del delegateQueue:nil];`.
 
 ### objc_15_progress_bar_and_nsnotification_center_run_loop.m
+
 Prints a `progress bar` while `Run Loop` exists.  Uses `NSNotificationCenter` to send a message when loop is finished.  
 
 ### objc_16_uiview_from_code.m
+
 Create a `UIView` in five lines of code.
 
 ### objc_17_global_dispatch_gcd_pthreads.m
+
 An `ObjC` class that uses `GCD`, `Locks` and `NSTimeInterval`.
 
 ### objc_18_writing_a_category__to_return_bytes_from_nsdata.m
+
 Added a `Category` to `NSData` without subclassing `NSData`.  Takes a `byte array`. Initialize an `NSData` object.   Similiar to `Extensions` in Swift.
 
 ### objc_19_runtime_add_ivar_add_method_to_class.m
-Reference is from https://gist.github.com/mikeash/7603035.  where he adds a `method` and `ivar` at run-time.  Sounds simple but `Automatic Reference Counting (ARC)` stopped me for a long time. The code won't compile with ARC on.
+
+Reference is from <https://gist.github.com/mikeash/7603035>.  where he adds a `method` and `ivar` at run-time.  Sounds simple but `Automatic Reference Counting (ARC)` stopped me for a long time. The code won't compile with ARC on.
 
 ## C++
 
-#### 8. C++ Namespace
+### c_plus_plus_1_namespace
+
 A nice feature of C++ compared to Objective-C. You could set a C++ Namespace to ensure your class declaration never conflicted with any definitions that may have the same class name.
 
-#### 9. C++ Stack vs Heap
+### c_plus_plus_2_stack_vs_heap
+
 Objective-C is all `Heap`.  Only Blocks are on the `Stack`.  By contrast, C++ gave you full control over declaring an Object on the `Heap` or the `Stack`.
 
-#### 10. C++ Constructor & Destructor
->>>>>>> python_threading
-Compared to Objective-C, I liked the `C++ Constructor` for the busy, forgetful developer.  I struggled at first to understand why the compiler forced you to have a Public Constructor & Destructor.  But it made sense after reading these articles:
-```
-https://stackoverflow.com/questions/4920277/private-destructor
-https://stackoverflow.com/questions/18546035/use-of-public-destructor-when-the-constructor-is-private/18546179#18546179
-```
+### c_plus_plus_3_constructor
+
+Compared to Objective-C, the `C++ Constructor` was helpful for the busy, forgetful developer.  Why did the compiler force you to have a `Public Constructor` and `Destructor`.  Made sense after reading these articles:
+
+- <https://`stackoverflow`.com/questions/4920277/private-destructor>
+- <https://stackoverflow.com/questions/18546035/use-of-public-destructor-when-the-constructor-is-private/18546179#18546179>
+
 This example code also used `inline` functions to help the compiler.
 
-<<<<<<< HEAD
-### 11. C++ Time APIs
-=======
-#### 11. C++ Time APIs
->>>>>>> python_threading
+### c_plus_plus_4_time
+
 I spent a lot of time coding `time` related APIs in C.  In turned out, I forgot Computer Science lesson 1; _re-use_.  I moved to using `difftime` instead of subtracting `Start - End` time.  I used `ctime` instead of creating my own `char buffer` to print a beautiful time and date.  There was also a C++ lesson in terms of setting a member variable to a `const`.  This was not really possible, when I wanted to create the entire object with `class YDTime mytime;`.  By design I did not want: `class YDTime mytime(local_time);`
-```
-https://stackoverflow.com/questions/13855890/what-is-the-difference-between-difftime-and
-https://stackoverflow.com/questions/14495536/how-to-initialize-const-member-variable-in-a-class
-```
-<<<<<<< HEAD
-### 12. C++ Encapsulation
-=======
-#### 12. C++ Encapsulation
->>>>>>> python_threading
-`Encapsulation` was a major building block of OOP.  It was commonly used to stop _undefined_ behaviour if your Classes were consumed by other developers.  The developer did not have direct line of sight to `private member variables` or `private member functions`. You forced developers to use _getters_ to access values and _setters_.  The latter allowed you to sanitise inputted data.  I loved `Encapsulation` to force compile time errors, when people tried to access `private` values they should not access.  But at run-time, you had access to all `private` data.  With a well-placed `breakpoint` and debugger, you had the `pointer` to the `Class` object and could bypass all of the `getters` and `setters`.  There was a healthy debate about this topic here:
-```
-https://stackoverflow.com/questions/424104/can-i-access-private-members-from-outside-the-class-without-using-friends
-```
-<<<<<<< HEAD
+
+- <https://stackoverflow.com/questions/13855890/what-is-the-difference-between-difftime-and>
+- <https://stackoverflow.com/questions/14495536/how-to-initialize-const-member-variable-in-a-class>
+
+### c_plus_plus_5_encapsulation
+
+`Encapsulation` was a major building block of OOP.  It was commonly used to stop _undefined_ behaviour if your Classes were consumed by other developers.  The developer did not have direct line of sight to `private member variables` or `private member functions`. You forced developers, who re-used your code, to use _getters_ to access values and _setters_.  The latter allowed you to sanitise inputted data.  
+
+I loved `Encapsulation` to force compile time errors, when people tried to access `private` values they should not access.  But at run-time, you had access to all `private` data.  With a well-placed `breakpoint` and debugger, you had the `pointer` to the `Class` object and could bypass all of the `getters` and `setters`.  There was a healthy debate about this topic here:
+
+- <https://stackoverflow.com/questions/424104/can-i-access-private-members-from-outside-the-class-without-using-friends>
+
 ### 13. ObjC NSString and isKindOfClass
+
 I wrote this code after answering a question on https://github.com/frida/frida/issues/607.  I tried playing with `NSString` and found on macOS that the platform made optimization decisions that would break Frida hooks placed on the Objective-C method names.  When asking for an NSString, the compiler never actually gave me a pure `NSString`.  I was always given a subclass by `macOS`.  The `isKindOfClass`, `[str1 superclass]` and `[str1 class]` were really useful to find out the reality.
-=======
 
 ### 16. Class introspection
+
 The example code expanded on Objective-C's runtime. It showed how to call a `@selector` via `objc_msgSend`.  It also showed the `Class` and `Method` types and the `class_getSuperclass`, `class_getInstanceMethod` and `respondsToSelector` functions.
 
 ### 17. Threading in C with PThreads
+
 I enjoyed writing this code; I started two background threads.  Both printed a message to logs.  The goal was to use a debugger to `suspend thread`. But I ended up also trying to `kill thread`.
 
 ### 18. Threading in ObjC with NSOperationQueue
@@ -237,7 +217,7 @@ I used an `NSLock` to stop it crashing:
   [fishyArray addObject:[fishObj name]];
   [arrayLock unlock];
 ```
->>>>>>> python_threading
+
 
 ### 14. Structs
 This example covered `Structs` and how C offered the flexibility to init on the `heap` (with `malloc`,  and `calloc`) or `stack`  and simple techniques to initialise a `struct`.  This included using a `char buffer` with `memcpy` and `memset`.
