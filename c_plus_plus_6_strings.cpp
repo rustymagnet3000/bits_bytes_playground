@@ -1,4 +1,5 @@
 #include <iostream>
+
 #define STR_MAX 20
 
 using namespace std;
