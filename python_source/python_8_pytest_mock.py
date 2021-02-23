@@ -24,9 +24,9 @@ if __name__ == '__main__':
 
 
 # test_app.py
-from main import get_operating_system
+from main import get_animal
 
 
-def test_get_operating_system(mocker):
+def test_get_animal(mocker):
     mocker.patch('main.is_animal', return_value=True)
     assert get_animal() == 'Fox'
