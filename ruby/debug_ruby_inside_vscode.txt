@@ -1,0 +1,29 @@
+
+### Debug Ruby script from Visual Studio code
+
+<https://marketplace.visualstudio.com/items?itemName=castwide.ruby-debug>
+
+
+`gem install readapt`
+
+### Inside /.vscode/launch.json
+
+```json
+Debug Active File
+{
+    "type": "ruby-debug",
+    "request": "launch",
+    "name": "Active File",
+    "program": "${file}",
+    "programArgs": [],
+    "useBundler": false
+}
+
+```
+
+### Stop $?.success? Being replaced by $CHILD_PROCESS
+
+
+<https://github.com/rubocop/rubocop/issues/2310>
+
+Stop   unless
