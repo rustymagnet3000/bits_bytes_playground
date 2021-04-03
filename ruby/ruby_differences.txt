@@ -1,0 +1,14 @@
+
+
+
+### Class instance variables
+
+puts(user.inspect)
+puts(user.instance_variables)
+
+
+
+https://stackoverflow.com/questions/3845914/ruby-accessing-array-elements
+The presence of curly braces and hashrockets (=>) means that you are dealing with a Ruby Hash, not an Array.
+
+

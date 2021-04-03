@@ -1,4 +1,26 @@
 
+### Visual Studio and Ruby
+
+Using MacOS, I installed:
+
+- VSCode
+- Ruby
+- rubocop
+- Ruby Solargraph
+- vscode-endwise
+
+And their gem dependencies!
+
+### Run script from keyboard shortcut
+
+<https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner>
+
+
+### Syntax
+
+<https://robdodson.me/posts/ruby-objects-and-dot-syntax/>
+
+
 ### Debug Ruby script from Visual Studio code
 
 <https://marketplace.visualstudio.com/items?itemName=castwide.ruby-debug>
@@ -23,7 +45,4 @@ Debug Active File
 
 ### Stop $?.success? Being replaced by $CHILD_PROCESS
 
-
 <https://github.com/rubocop/rubocop/issues/2310>
-
-Stop   unless

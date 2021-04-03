@@ -1,0 +1,11 @@
+
+v = [{"uuid"=>"aaaaa", "name"=>"Alice"}, {"uuid"=>"bbbbb", "name"=>"Bob"}, {"uuid"=>"ccccc", "name"=>"Yves"}]
+
+results = []
+v.each do |hash|
+  results << hash["uuid"] if hash["name"] == "Bob"
+end
+
+p results
+["bbbbb"]
+
