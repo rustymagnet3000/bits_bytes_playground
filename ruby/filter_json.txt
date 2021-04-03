@@ -9,3 +9,25 @@ end
 p results
 ["bbbbb"]
 
+
+results = []
+v.each do |hash|
+  results << hash["uuid"] if hash["name"] != "Bob"
+end
+
+p results
+["aaaaa", "ccccc"]
+
+
+#### Use Rails core extension
+https://stackoverflow.com/questions/6227600/how-to-remove-a-key-from-hash-and-get-the-remaining-hash-in-ruby-rails
+
+➜  ~  irb
+> require 'active_support/core_ext/hash'
+=> true 
+> h = {:a => 1, :b => 2, :c => 3}
+ => {:a=>1, :b=>2, :c=>3} 
+> h.except(:a)
+ => {:b=>2, :c=>3} 
+> h.slice(:a)
+ => {:a=>1} 
