@@ -11,6 +11,11 @@ Using MacOS, I installed:
 
 And their gem dependencies!
 
+
+### Debug script
+
+`require 'pry'; binding.pry`
+
 ### Run script from keyboard shortcut
 
 <https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner>

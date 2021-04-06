@@ -1,0 +1,13 @@
+
+```ruby
+def sanitize_user_input?(str)
+    (str =~ /[^a-zA-Z0-9]/).nil?
+  end
+=> :sanitize_user_input?
+irb(main):004:0> sanitize_user_input?("wooh")
+=> true
+irb(main):005:0> sanitize_user_input?("wooh2")
+=> true
+irb(main):006:0> sanitize_user_input?("wooh2!")
+=> false
+```

@@ -31,3 +31,6 @@ https://stackoverflow.com/questions/6227600/how-to-remove-a-key-from-hash-and-ge
  => {:b=>2, :c=>3} 
 > h.slice(:a)
  => {:a=>1} 
+
+irb(main):011:0> v.include?(["uuid"])
+=> false

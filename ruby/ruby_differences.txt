@@ -6,6 +6,11 @@
 puts(user.inspect)
 puts(user.instance_variables)
 
+### Init class and call class method
+
+user = UserLoggedIn.new(username)
+user.check_if_macos
+
 
 
 https://stackoverflow.com/questions/3845914/ruby-accessing-array-elements
