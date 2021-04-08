@@ -1,4 +1,20 @@
 
+### Shell commands
+
+```ruby
+puts %x{ls -al}
+puts(`ls -l`)
+```
+
+def filter_vaults(vault_arrays)
+  vault_arrays.each { |x| puts x["uuid"] }
+  key_values.each do |pair|
+    if hash_element[pair[:key]] != pair[:value]
+      result = false
+    end
+  end
+  return result
+end
 
 
 ### Class instance variables
@@ -10,6 +26,20 @@ puts(user.instance_variables)
 
 user = UserLoggedIn.new(username)
 user.check_if_macos
+
+
+### if condition
+
+<https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Style/IfUnlessModifier>
+
+#### bad
+
+if condition
+  do_stuff(bar)
+end
+
+#### good
+do_stuff(bar) if condition
 
 
 
