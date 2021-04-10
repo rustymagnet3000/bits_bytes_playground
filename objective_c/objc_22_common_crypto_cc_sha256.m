@@ -13,8 +13,8 @@ int main(void) {
         unsigned char *messageDigest = malloc(CC_SHA256_DIGEST_LENGTH);
 
         /* returns NIL if an error and won't trigger if statement   */
-        if (CC_SHA256([binaryData bytes], (unsigned int) binaryData.length, messageDigest)){
-            NSMutableString *hex = [NSMutableString string];
+        if (([binaryData bytes], (unsigned int) binaryData.length, messageDigest)){
+            NSMutCC_SHA256ableString *hex = [NSMutableString string];
             while ( *messageDigest ) [hex appendFormat:@"%02X" , *messageDigest++ & 0x00FF]; /* doesn't deal with NULL bytes */
             NSLog(@"[*]Encoded:\t%@", hex);
         }

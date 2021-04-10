@@ -26,6 +26,27 @@ Snippets of Objective-C, C, C++, asm, Swift and Python
     - [objc_17_global_dispatch_gcd_pthreads.m](#objc_17_global_dispatch_gcd_pthreadsm)
     - [objc_18_writing_a_category__to_return_bytes_from_nsdata.m](#objc_18_writing_a_category__to_return_bytes_from_nsdatam)
     - [objc_19_runtime_add_ivar_add_method_to_class.m](#objc_19_runtime_add_ivar_add_method_to_classm)
+    - [objc_20_associated_object_add_variable_at_run_time.m](#objc_20_associated_object_add_variable_at_run_timem)
+    - [objc_21_class_instrospection_objc_msgSendTyped](#objc_21_class_instrospection_objc_msgsendtyped)
+    - [objc_22_common_crypto_cc_sha256](#objc_22_common_crypto_cc_sha256)
+    - [objc_23_cfnumber](#objc_23_cfnumber)
+    - [objc_24_cfstringref](#objc_24_cfstringref)
+    - [objc_25_cfarray](#objc_25_cfarray)
+    - [objc_26_swizzle_instance_method_only](#objc_26_swizzle_instance_method_only)
+    - [objc_27_swizzle_class_method_only](#objc_27_swizzle_class_method_only)
+    - [objc_28_swizzling_Instance_and_Class_Methods](#objc_28_swizzling_instance_and_class_methods)
+    - [objc_29_swizzling_constructor](#objc_29_swizzling_constructor)
+    - [objc_30_swizzle_NSUserDefaults](#objc_30_swizzle_nsuserdefaults)
+    - [objc_31_swizzling_nsurl](#objc_31_swizzling_nsurl)
+    - [objc_32_charactersets](#objc_32_charactersets)
+    - [objc_33_nserror](#objc_33_nserror)
+    - [objc_34_nserror_pass_by_reference](#objc_34_nserror_pass_by_reference)
+    - [objc_35_nsoperation](#objc_35_nsoperation)
+    - [objc_36_nsoperation_subclass](#objc_36_nsoperation_subclass)
+    - [objc_37_nsthread_create_five_background_threads](#objc_37_nsthread_create_five_background_threads)
+    - [objc_38_nsthread_with_nslock](#objc_38_nsthread_with_nslock)
+    - [objc_39_nsthread_with_synchronized](#objc_39_nsthread_with_synchronized)
+    - [objc_40_read_plist](#objc_40_read_plist)
 - [C++](#c)
     - [c_plus_plus_1_namespace](#c_plus_plus_1_namespace)
     - [c_plus_plus_2_stack_vs_heap](#c_plus_plus_2_stack_vs_heap)
@@ -60,9 +81,6 @@ Snippets of Objective-C, C, C++, asm, Swift and Python
     - [c_gmp_9_pollard_rho_find_factors](#c_gmp_9_pollard_rho_find_factors)
     - [c_gmp_10_pollard_rho_fix](#c_gmp_10_pollard_rho_fix)
     - [c_gmp_11_random_numbers](#c_gmp_11_random_numbers)
-    - [Swizzling](#swizzling)
-    - [C Byte Array to Objective-C](#c-byte-array-to-objective-c)
-    - [Objective-C Respond to Selector](#objective-c-respond-to-selector)
 
 <!-- /TOC -->
 
@@ -153,6 +171,96 @@ Added a `Category` to `NSData` without subclassing `NSData`.  Takes a `byte arra
 ### objc_19_runtime_add_ivar_add_method_to_class.m
 
 Reference is from <https://gist.github.com/mikeash/7603035>.  where he adds a `method` and `ivar` at run-time.  Sounds simple but `Automatic Reference Counting (ARC)` stopped me for a long time. The code won't compile with ARC on.
+
+### objc_20_associated_object_add_variable_at_run_time.m
+
+Add a variable to a class at runtime. Uses `objc_setAssociatedObject` and `objc_getAssociatedObject`.
+
+### objc_21_class_instrospection_objc_msgSendTyped
+
+Inspect a `Class` at runtime. Uses the famous `objc_msgSend` and `objc_msgSendTyped`
+
+### objc_22_common_crypto_cc_sha256
+
+Uses `<CommonCrypto/CommonDigest.h>` to do a simple `SHA256`.
+
+### objc_23_cfnumber
+
+Shows how to use `cfnumber`.
+
+### objc_24_cfstringref
+
+Uses `CFSTR` to create a string.
+
+### objc_25_cfarray
+
+Creates an array from strings.
+
+### objc_26_swizzle_instance_method_only
+
+Swizzle a `Class instance method` only.
+
+### objc_27_swizzle_class_method_only
+
+Same as previous but for a `Class method` only.
+
+### objc_28_swizzling_Instance_and_Class_Methods
+
+A more complete swizzling example. Apple [said][4522c6ad]:
+
+  [4522c6ad]: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008048-CH1-SW1 "Apple"
+
+> The Objective-C language defers as many decisions as it can from compile time and link time to runtime. Whenever possible, it does things dynamically. This means that the language requires not just a compiler, but also a runtime system to execute the compiled code.
+
+Swizzling used native Objective-C APIs to modify the `dispatch table`.  This  modified `code flow` when the app was running [ long after `compile` and `link` time ].  What an amazing feature of Objective-C.
+
+### objc_29_swizzling_constructor
+
+Invokes the swizzle at app start-up due to the `static void __attribute__((constructor)) initialize(void)` call.
+
+### objc_30_swizzle_NSUserDefaults
+
+More practical use of a swizzle.
+
+### objc_31_swizzling_nsurl
+
+Useful way to inspect `NSURL` calls.
+
+### objc_32_charactersets
+
+Tries to guess the `Type` of decrypted data based on the `NSCharacterSet`.
+
+### objc_33_nserror
+
+How to use `NSError` with ObjC.
+
+### objc_34_nserror_pass_by_reference
+
+Based on Apple's example of Pass By Reference NSError [example](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/ErrorHandling/ErrorHandling.html).
+
+### objc_35_nsoperation
+
+Creates a class that inherits from `NSOperation`.
+
+### objc_36_nsoperation_subclass
+
+Use `NSOperationQueue` and  `queue addOperationWithBlock`.
+
+### objc_37_nsthread_create_five_background_threads
+
+Creates 5 x `Named Threads`.
+
+### objc_38_nsthread_with_nslock
+
+Uses `NSLock` to stop issues with a `mutable array`.
+
+### objc_39_nsthread_with_synchronized
+
+A cleaner way to `lock` the array using `synchronized`.
+
+### objc_40_read_plist
+
+Read a `plist` file.
 
 ## C++
 
@@ -296,46 +404,3 @@ TBA.
 
 Calls `gmp_randstate_t` and `gmp_randinit_default`.  Then goes onto call `gmp_randseed_ui`.  Ultimiately it calls `arc4random()` for random input.
 
-
-
-
-
-
-### 15. Swizzling
-Apple [said][4522c6ad]:
-
-  [4522c6ad]: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008048-CH1-SW1 "Apple"
-
-> The Objective-C language defers as many decisions as it can from compile time and link time to runtime. Whenever possible, it does things dynamically. This means that the language requires not just a compiler, but also a runtime system to execute the compiled code.
-
-Swizzling used native Objective-C APIs to modify the `dispatch table`.  This  modified `code flow` when the app was running [ long after `compile` and `link` time ].  What an amazing feature of Objective-C.
-
-When Swizzling, I had to reset my brain for the following code:
-```
-- (BOOL)fakeNameCheck
-{
-    BOOL result = [self fakeNameCheck];
-    NSLog(@"[+] 🍭 swizzled. Orignal retval: %@", result ? @"YES" : @"NO");
-    return TRUE;
-}
-```
-It looked like a `recursive loop` that would cause a crash.  Actually, `[self fakeNameCheck];` now pointed to the original "clean" function.  This was done when you used the Objc API `method_exchangeImplementations(original, replacement);`.
-
-```
-References:
-// https://pilky.me/dynamic-tips-tricks-with-objective-c/
-// https://mikeash.com/tmp/Runtime%20API%20Tour.pdf
-```
-
-
-
-
-
-
-### 25.C Byte Array to Objective-C
-Piece of code to help understand how I could manipulate code with Frida's Objective-C interface.
-
-
-
-### 32.Objective-C Respond to Selector
-Check whether an Instance Method or Class Method exists, before calling.
