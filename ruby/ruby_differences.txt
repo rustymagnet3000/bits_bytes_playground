@@ -1,11 +1,4 @@
 
-### Shell commands
-
-```ruby
-puts %x{ls -al}
-puts(`ls -l`)
-```
-
 def filter_vaults(vault_arrays)
   vault_arrays.each { |x| puts x["uuid"] }
   key_values.each do |pair|
