@@ -58,15 +58,8 @@ Snippets of Objective-C, C, C++, asm, Swift and Python
     - [c_gmp_7_loop](#c_gmp_7_loop)
     - [c_gmp_8_pollard_rho_final](#c_gmp_8_pollard_rho_final)
     - [c_gmp_9_pollard_rho_find_factors](#c_gmp_9_pollard_rho_find_factors)
-    - [c_gmp_pollard_rho_fix](#c_gmp_pollard_rho_fix)
-    - [c_gmp_random_numbers](#c_gmp_random_numbers)
-    - [](#)
-    - [ObjC NSString and isKindOfClass](#objc-nsstring-and-iskindofclass)
-    - [Class introspection](#class-introspection)
-    - [Threading in ObjC with NSOperationQueue](#threading-in-objc-with-nsoperationqueue)
-    - [Objective-C's Run-time](#objective-cs-run-time)
-    - [Objective-C NSDictionary](#objective-c-nsdictionary)
-    - [Threading in ObjC with GCD, NSLock and Semaphores](#threading-in-objc-with-gcd-nslock-and-semaphores)
+    - [c_gmp_10_pollard_rho_fix](#c_gmp_10_pollard_rho_fix)
+    - [c_gmp_11_random_numbers](#c_gmp_11_random_numbers)
     - [Swizzling](#swizzling)
     - [C Byte Array to Objective-C](#c-byte-array-to-objective-c)
     - [Objective-C Respond to Selector](#objective-c-respond-to-selector)
@@ -281,61 +274,29 @@ Calls `mpz_gcd` to return the `Greatest Common Demoninator`.
 
 ### c_gmp_6_import_byte_array_print_hex
 
-> tba
+Imports a `Byte Array` into `GMP's` `mpz_t struct`.
 
 ### c_gmp_7_loop
 
-> tba
+A regular `C while loop` used together with `GMP's mpz_cmp_ui`.
 
 ### c_gmp_8_pollard_rho_final
 
-> tba
+A `GMP` implementation of `Pollard's Rho Algorithm`.
 
 ### c_gmp_9_pollard_rho_find_factors
 
-> tba
+A broken implementation of the same.
 
-### c_gmp_pollard_rho_fix
+### c_gmp_10_pollard_rho_fix
 
-> tba
+TBA.
 
-### c_gmp_random_numbers
+### c_gmp_11_random_numbers
 
-> tba
-
-### 
+Calls `gmp_randstate_t` and `gmp_randinit_default`.  Then goes onto call `gmp_randseed_ui`.  Ultimiately it calls `arc4random()` for random input.
 
 
-### 13. ObjC NSString and isKindOfClass
-
-I wrote this code after answering a question on https://github.com/frida/frida/issues/607.  I tried playing with `NSString` and found on macOS that the platform made optimization decisions that would break Frida hooks placed on the Objective-C method names.  When asking for an NSString, the compiler never actually gave me a pure `NSString`.  I was always given a subclass by `macOS`.  The `isKindOfClass`, `[str1 superclass]` and `[str1 class]` were really useful to find out the reality.
-
-### 16. Class introspection
-
-The example code expanded on Objective-C's runtime. It showed how to call a `@selector` via `objc_msgSend`.  It also showed the `Class` and `Method` types and the `class_getSuperclass`, `class_getInstanceMethod` and `respondsToSelector` functions.
-
-
-### 18. Threading in ObjC with NSOperationQueue
-ObjC had so many APIs available for `multi-threaded` apps.  I started with `NSOperationQueue`.
-
-### 23.Objective-C's Run-time
-Add Class, iVar and Method all at runtime. Magic.
-
-### 24.Objective-C NSDictionary
-I found an app using an NSDictionary to store sensitive information.  I this piece of code is from Apple and shows how the compiler will breakdown higher level code into more primitive Objective-C types `id` and it will always go back to `NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects`.
-
-### 19. Threading in ObjC with GCD, NSLock and Semaphores
-I used `Semaphores` to make sure code waited for background threads to complete. I called a `Block` on each thread with a custom `Object`. I hit an error which related to `NSMutableArray` not being `thread-safe`.
-```
-malloc: Double free of object
-malloc: *** set a breakpoint in malloc_error_break to debug
-```
-I used an `NSLock` to stop it crashing:
-```
-  [arrayLock lock]; // NSMutableArray isn't thread-safe
-  [fishyArray addObject:[fishObj name]];
-  [arrayLock unlock];
-```
 
 
 
