@@ -261,23 +261,23 @@ Write ASM instructions inside of C code for Linux ARM.
 
 ### c_gmp_1_basics
 
-> tba
+Initialie an `Integer Type` called `mpz`. Convert a `const char *` to a `GMP` Type.
 
 ### c_gmp_2_checking_for_errors
 
-> tba
+Work with multiple `const char *` Types from `C`.  Check a `GMP` integer for `even`, `size in bits` and `empty value`.
 
 ### c_gmp_3_export
 
-> tba
+Asks the `mpz_export` function to detect the `Type` of a decrypted value.
 
 ### c_gmp_4_factorial
 
-> tba
+Shows why `gmpFactorial` is the only choice when working with large numbers.
 
 ### c_gmp_5_gcd
 
-> tba
+Calls `mpz_gcd` to return the `Greatest Common Demoninator`.
 
 ### c_gmp_6_import_byte_array_print_hex
 
