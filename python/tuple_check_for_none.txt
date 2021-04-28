@@ -1,0 +1,12 @@
+python3                                                                              
+Python 3.9.4 (default, Apr  5 2021, 01:50:46) 
+
+>>> (1,2)
+(1, 2)
+>>> a = (1,2)
+>>> all(a)
+True
+
+>>> b = (1,2,None)
+>>> all(b)
+False
