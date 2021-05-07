@@ -35,17 +35,18 @@ cargo metadata --no-deps
 cargo metadata --no-deps --format-version=1 | jq .
 ```
 
-#### VS code set up
+#### VSCode set up
 
 ```bash
-code --install-extension matklad.rust-analyzer
-code --install-extension vadimcn.vscode-lldb
+code --install-extension matklad.rust-analyzer		// Required for good auto-complete
+code --install-extension vadimcn.vscode-lldb		// Required for debugging on macOS
 ```
 
 #### Style
 
 - Rust style is to indent with four spaces, not a tab.
 - `!` means that you’re calling a macro instead of a normal function.
+- variables are immutable by default
 
 #### Debugging
 
@@ -100,11 +101,12 @@ rustc --explain E0425
 }
 ```
 
-#### Get Run button to work in VSCode
+#### Get Run button working in VSCode
 
+Inside `/VScode/Preferences/Settings.json`:
 
 ```json
-	-->	/VScode/Preferences/Settings.json
+	-->	
 
 
 {
@@ -117,8 +119,17 @@ rustc --explain E0425
         "rust": "if [ $(basename $dir) = 'examples' ]; then cargo run --example $fileNameWithoutExt; else cargo run; fi",
     }
 }
-```
 
+
+#### Accept user input
+
+Inside `/VScode/Preferences/Settings.json`:
+
+
+```bash
+    "code-runner.runInTerminal": true
+    }
+```
 
 #### Tests
 
