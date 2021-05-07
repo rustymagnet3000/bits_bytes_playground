@@ -15,6 +15,14 @@ cargo version
 rustup update
 ```
 
+#### Update
+
+```bash
+cargo install cargo-udeps --locked
+cargo +nightly udeps
+```
+
+
 #### Create new project
 
 ```bash
@@ -46,7 +54,10 @@ code --install-extension vadimcn.vscode-lldb		// Required for debugging on macOS
 
 - Rust style is to indent with four spaces, not a tab.
 - `!` means that you’re calling a macro instead of a normal function.
-- variables are immutable by default
+- variables are immutable by default.
+- like variables, references are immutable by default.
+- Better to split up lines: `io::stdin().read_line(&mut guess).expect("Failed to read line");`
+- expect will cause the program to crash
 
 #### Debugging
 
