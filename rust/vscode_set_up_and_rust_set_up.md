@@ -4,22 +4,32 @@
 curl https://sh.rustup.rs -sSf | sh
 cargo --version && rustc --version
 rustc --version
+rustup --version
 rustup doc --book
+rustup toolchain install nightly
 source $HOME/.cargo/env
-cargo version
+https://blog.logrocket.com/getting-up-to-speed-with-rust/
 ```
 
 #### Update
 
 ```bash
 rustup update
+cargo update
 ```
 
-#### Update
+#### Set a toolchain
+
+```bash
+rustup default stable
+```
+
+#### Check for unused dependencies
 
 ```bash
 cargo install cargo-udeps --locked
 cargo +nightly udeps
+cargo +nightly udeps --all-targets
 ```
 
 
@@ -57,7 +67,10 @@ code --install-extension vadimcn.vscode-lldb		// Required for debugging on macOS
 - variables are immutable by default.
 - like variables, references are immutable by default.
 - Better to split up lines: `io::stdin().read_line(&mut guess).expect("Failed to read line");`
-- expect will cause the program to crash
+- `expect` will cause the program to crash
+- declare constants using the `const` keyword instead of the `let` keyword
+- you aren’t allowed to use `mut` with `constants`
+
 
 #### Debugging
 
