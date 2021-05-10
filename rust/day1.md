@@ -1,6 +1,6 @@
-## Rust
+# Rust
 
-#### Set up
+### Set up
 
 ```bash
 curl https://sh.rustup.rs -sSf | sh
@@ -13,20 +13,20 @@ source $HOME/.cargo/env
 https://blog.logrocket.com/getting-up-to-speed-with-rust/
 ```
 
-#### Update
+### Update
 
 ```bash
 rustup update
 cargo update
 ```
 
-#### Set a toolchain
+### Set toolchain
 
 ```bash
 rustup default stable
 ```
 
-#### Check for unused dependencies
+### Check for unused dependencies
 
 ```bash
 cargo install cargo-udeps --locked
@@ -34,8 +34,7 @@ cargo +nightly udeps
 cargo +nightly udeps --all-targets
 ```
 
-
-#### Create new project
+### Create new project
 
 ```bash
 https://rust-cli.github.io/book/tutorial/setup.html
@@ -43,7 +42,7 @@ cargo new grrs
 cargo new guessing_game
 ```
 
-#### Build and run
+### Build and run
 
 ```bash
 rustc main.rs		// only for the smallest scripts
@@ -55,20 +54,15 @@ cargo metadata --no-deps
 cargo metadata --no-deps --format-version=1 | jq .
 ```
 
-#### VSCode set up
-
-```bash
-code --install-extension matklad.rust-analyzer		// Required for good auto-complete
-code --install-extension vadimcn.vscode-lldb		// Required for debugging on macOS
-```
-
 #### Language
 
-- Rust is a `statically typed language`, which means that it must know the types of all variables at compile time. 
+- Rust is a `statically typed language`, which means that it must know the types of all variables at compile time.
+- Rust’s central feature is `ownership`.  memory is managed through a system of ownership with a set of rules that the compiler checks at compile time.
 - variables are immutable by default.
 - like variables, references are immutable by default.
 - Rust uses the term `panick` when a program exits with an error
-- [Integer Overflow](https://doc.rust-lang.org/book/ch03-02-data-types.html) on a release build `wraps around`
+- [Integer Overflow](https://doc.rust-lang.org/book/ch03-02-data-types.html) on a release build `wraps around`.
+- If we do want to deeply copy the heap data of the String, not just the stack data, we can use a common method called `clone`.
 
 ## Style
 
@@ -121,90 +115,4 @@ let number = if condition { 5 } else { 6 };
 
 ```bash
 rustc --explain E0425
-```
-
-#### Debugging set up in VScode
-
-```json
-{
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug executable 'grrs'",
-            "cargo": {
-                "args": [
-                    "build",
-                    "--bin=grrs",
-                    "--package=grrs"
-                ],
-                "filter": {
-                    "name": "grrs",
-                    "kind": "bin"
-                }
-            },
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug unit tests in executable 'grrs'",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--bin=grrs",
-                    "--package=grrs"
-                ],
-                "filter": {
-                    "name": "grrs",
-                    "kind": "bin"
-                }
-            },
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        }
-    ]
-}
-```
-
-#### Get Run button working in VSCode
-
-Inside `/VScode/Preferences/Settings.json`:
-
-```json
-	-->	
-
-
-{
-    "explorer.confirmDelete": false,
-    "files.autoSave": "afterDelay",
-    ....
-    ...
-    ..
-    "code-runner.executorMap": {
-        "rust": "if [ $(basename $dir) = 'examples' ]; then cargo run --example $fileNameWithoutExt; else cargo run; fi",
-    }
-}
-
-
-#### Accept user input
-
-Inside `/VScode/Preferences/Settings.json`:
-
-
-```bash
-    "code-runner.runInTerminal": true
-    }
-```
-
-#### Tests
-
-```rust
-#[test]
-fn it_works() {
-    assert_eq!(2 + 2, 4);
-}
 ```
