@@ -81,6 +81,7 @@ for key, value in big_dict.items():
             print(f'[*]Date:           \t{validate_date_return_pretty(dict_of_findings["CreatedAt"])}')
 
         # 5 get Resource Dict out of the Findings Dict (4)
+        # Don't do this! Use .get() to avoid KeyErrors!
         if dict_of_findings['Resource']:
             print(f'[*]Access Key:     \t{dict_of_findings["Resource"]["AccessKeyDetails"]["AccessKeyId"]}')
             print(f'[*]ID:             \t{dict_of_findings["Resource"]["AccessKeyDetails"]["PrincipalId"]}')

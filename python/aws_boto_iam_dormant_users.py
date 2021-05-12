@@ -26,8 +26,15 @@ def rm_list_iam_users():
         iam = boto3.client('iam')
         resp = iam.list_users()
 
+        # get list of users from resp dict
         for user in resp['Users']:
-            print(user)
+            username = user.get('UserName', None)
+            if username:
+                response = iam.list_access_keys(
+                    UserName=username,
+                    MaxItems=10
+                )
+                print(response)
 
     except ClientError as e:
         logging.error(e)
