@@ -10,16 +10,16 @@ from dateutil.tz import tzutc
 # List[0]               - Dict of data
 
 aws_iam_response = {'AccessKeyMetadata': [{
-    'UserName': 'rm_cli',
-    'AccessKeyId': 'AKIAV2V7NSN7DATEPUFL',
+    'UserName': 'foobar',
+    'AccessKeyId': 'AKIAV2V7NSN7XXXXXXX',
     'Status': 'Active',
     'CreateDate': datetime.datetime(2021, 2, 13, 7, 2, 8, tzinfo=tzutc())}],
     'IsTruncated': False,
     'ResponseMetadata':
-        {'RequestId': '89746588-8eaa-468c-bd6c-619c8f3ea45b',
+        {'RequestId': '89746588-8eaa-468c-bd6c-ffffffffffff',
          'HTTPStatusCode': 200,
          'HTTPHeaders':
-             {'x-amzn-requestid': '89746588-8eaa-468c-bd6c-619c8f3ea45b',
+             {'x-amzn-requestid': '89746588-8eaa-468c-bd6c-ffffffffffff',
               'content-type': 'text/xml',
               'content-length': '554',
               'date': 'Wed, 12 May 2021 15:23:30 GMT'},

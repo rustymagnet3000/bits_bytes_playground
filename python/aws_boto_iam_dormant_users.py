@@ -7,8 +7,9 @@ from dateutil.parser import parse
 # aws iam list-access-keys          / ListAccessKeys
 # aws iam get-access-key-last-used  / GetAccessKeyLastUsed
 
-# Check if two access keys
-# Check both last_used_dates
+# Has to check if a user has multiple access keys
+# Will fail:  access_key_id = response.get("AccessKeyMetadata", {})[0].get("AccessKeyId", {})
+# Then check each key is "active"
 
 # Set environment variables:
 #   AWS_PROFILE=default
@@ -24,9 +25,9 @@ def rm_list_iam_users():
     logging.info(f'[*]Starting to list IAM users')
     try:
         iam = boto3.client('iam')
-        resp = iam.list_users()
-
-        # get list of users from resp dict
+        # get list of users from resp dict. Default maxItems is 100.
+        resp = iam.list_users(MaxItems=300)
+        # get each UserName
         for user in resp['Users']:
             username = user.get('UserName', None)
             if username:
@@ -34,7 +35,9 @@ def rm_list_iam_users():
                     UserName=username,
                     MaxItems=10
                 )
-                print(response)
+                # TTD handle multiple keys ( which are returned as List )
+                access_key_id = response.get("AccessKeyMetadata", {})[0].get("AccessKeyId", {})
+                print(f'[*]\t{username}          \t\t\t{access_key_id}')
 
     except ClientError as e:
         logging.error(e)
