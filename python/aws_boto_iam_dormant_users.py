@@ -23,13 +23,18 @@ class IAMUser:
     def _key_count(self):
         return len(self.keys)
 
-    def _pretty_keys(self):
-        return 'pretty keys'
+    def _get_dormant_status(self):
+        """
+        Only dormant if both keys have not been used
+        """
+        for key in self.keys:
+            print(key)
+        return "dormant"
 
     def __repr__(self):
-        return f'IAM user: {self.username!r}\t' \
-               f'Key count:{self._key_count()!r}' \
-               f'Key keys:{self.keys!r}'
+        return f'IAM user:       {self.username!r}\n' \
+               f'Key count:      {self._key_count()!r}\n' \
+               f'Dormant status: {self._get_dormant_status()!r}'
 
     def _pretty_date(self):
         cleaned_date = parse(date_text)
@@ -65,7 +70,9 @@ def rm_find_dormant_iam_keys():
                     last_access_date_dict = iam.get_access_key_last_used(AccessKeyId=access_key_id)
                     last_access_date = last_access_date_dict.get('AccessKeyLastUsed', {}).get('LastUsedDate', None)
                     user.keys.append((access_key_id, last_access_date))
-                print(user)
+                users_and_results.append(user)
+        for iam_user in users_and_results:
+            print(iam_user)
 
     except ClientError as e:
         logging.error(e)
