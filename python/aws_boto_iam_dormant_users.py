@@ -7,7 +7,8 @@ from dateutil.parser import parse
 # aws iam list-access-keys          / ListAccessKeys
 # aws iam get-access-key-last-used  / GetAccessKeyLastUsed
 
-# Has to check if a user has multiple access keys
+# Has to check if a user has 1 or 2 access keys
+# AWS IAM User "You can have a maximum of two access keys (active or inactive) at a time."
 # Will fail:  access_key_id = response.get("AccessKeyMetadata", {})[0].get("AccessKeyId", {})
 # Then check each key is "active"
 
@@ -35,9 +36,11 @@ def rm_list_iam_users():
                     UserName=username,
                     MaxItems=10
                 )
-                # TTD handle multiple keys ( which are returned as List )
-                access_key_id = response.get("AccessKeyMetadata", {})[0].get("AccessKeyId", {})
-                print(f'[*]\t{username}          \t\t\t{access_key_id}')
+                # handle IAM users with 2 keys ( which are returned as a list )
+                access_keys = response.get("AccessKeyMetadata", {})
+                for keys in access_keys:
+                    access_key_id = keys.get("AccessKeyId", {})
+                    print(f'[*]\t{username}          \t\t\t{access_key_id}')
 
     except ClientError as e:
         logging.error(e)
