@@ -37,7 +37,7 @@ class DormantResults:
     def __repr__(self):
         from texttable import Texttable
         table = Texttable(max_width=80)
-        table.set_cols_width([40, 40])
+        table.set_cols_width([20, 20])
         table.header(['Status', 'Count'])
         table.set_deco(table.BORDER | Texttable.HEADER | Texttable.VLINES | Texttable.HLINES)
         table.add_row([DormantState.ACTIVE.value, self.active_users])
@@ -70,6 +70,9 @@ class IAMUser:
         Has to check if a user has 1 or 2 access keys
         The "active" status of a Key is not considered
         """
+        ACTIVE_PERIOD = 60
+        INACTIVE_PERIOD = 180
+
         for key in self.keys:
             # handle case where AWS IAM account has a single key with no Used Date
             if key.last_used_date is None and len(self.keys) == 1:
@@ -79,18 +82,18 @@ class IAMUser:
             if key.last_used_date is None and len(self.keys) == 2:
                 continue
             days_since_today = datetime.today() - key.last_used_date.replace(tzinfo=None)
-            if days_since_today.days < 60:
+            if days_since_today.days < ACTIVE_PERIOD:
                 self.status = DormantState.ACTIVE
                 return
-            elif days_since_today.days < 120:
+            elif days_since_today.days < INACTIVE_PERIOD:
                 self.status = DormantState.INACTIVE
                 return
         self.status = DormantState.DORMANT
 
-    # def __repr__(self):
-    #     return f'IAM user:       {self.username!r}\t' \
-    #            f'Key count:      {self.key_count()!r}\t' \
-    #            f'Dormant status: {self.status.value!r}'
+    def __repr__(self):
+        return f'IAM user:       {self.username!r}\t' \
+               f'Key count:      {self.key_count()!r}\t' \
+               f'Dormant status: {self.status.value!r}'
 
 
 def rm_find_dormant_iam_keys():
