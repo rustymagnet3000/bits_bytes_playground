@@ -1,20 +1,30 @@
 import logging
+from enum import Enum
+from dateutil.parser import parse
 import boto3
 from botocore.exceptions import ClientError
-from dateutil.parser import parse
-
-# Finding unused credentials
-# aws iam list-access-keys          / ListAccessKeys
-# aws iam get-access-key-last-used  / GetAccessKeyLastUsed
-
-# Has to check if a user has 1 or 2 access keys
-# AWS IAM User "You can have a maximum of two access keys (active or inactive) at a time."
-# Will fail:  access_key_id = response.get("AccessKeyMetadata", {})[0].get("AccessKeyId", {})
-# Then check each key is "active"
 
 # Set environment variables:
 #   AWS_PROFILE=default
 #   AWS_DEFAULT_REGION=......
+
+
+class DormantRules(Enum):
+    ACTIVE = 90
+    INACTIVE = 180
+    DORMANT = 365
+
+
+class IAMUser:
+    def __init__(self, name: str):
+        self.username = name
+        self.keys = []
+
+    def key_count(self):
+        return len(self.keys)
+
+    def __repr__(self):
+        return f'IAM user: {self.username!r}\tKey count:{self.key_count()!r}'
 
 
 def rm_pretty_date(date_text):
@@ -22,25 +32,34 @@ def rm_pretty_date(date_text):
     return f'{cleaned_date:%d-%m-%Y\t%H:%M%p}'
 
 
-def rm_list_iam_users():
-    logging.info(f'[*]Starting to list IAM users')
+def rm_find_dormant_iam_keys():
+    """
+        Finds unused credentials similar to CLI commands:
+            aws iam list-access-keys          / ListAccessKeys
+            aws iam get-access-key-last-used  / GetAccessKeyLastUsed
+        Has to check if a user has 1 or 2 access keys
+        Check each key is "active"
+    """
+    users_and_results = []
     try:
         iam = boto3.client('iam')
         # get list of users from resp dict. Default maxItems is 100.
         resp = iam.list_users(MaxItems=300)
         # get each UserName
-        for user in resp['Users']:
-            username = user.get('UserName', None)
+        for user_dict in resp['Users']:
+            username = user_dict.get('UserName', None)
             if username:
+                user = IAMUser(username)
                 response = iam.list_access_keys(
                     UserName=username,
-                    MaxItems=10
+                    MaxItems=2   # AWS "You can have a maximum of two access keys (active or inactive) at a time."
                 )
                 # handle IAM users with 2 keys ( which are returned as a list )
                 access_keys = response.get("AccessKeyMetadata", {})
                 for keys in access_keys:
                     access_key_id = keys.get("AccessKeyId", {})
-                    print(f'[*]\t{username}          \t\t\t{access_key_id}')
+                    user.keys.append(access_key_id)
+                print(user)
 
     except ClientError as e:
         logging.error(e)
@@ -49,4 +68,4 @@ def rm_list_iam_users():
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
-    rm_list_iam_users()
+    rm_find_dormant_iam_keys()
