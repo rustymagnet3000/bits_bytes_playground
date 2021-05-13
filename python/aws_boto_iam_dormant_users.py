@@ -1,6 +1,6 @@
 import logging
 from typing import NamedTuple
-from enum import IntEnum
+from enum import Enum
 import boto3
 from botocore.exceptions import ClientError
 from datetime import datetime
@@ -17,24 +17,35 @@ from progress.bar import Bar
 #   time python3 aws_boto_iam_dormant_users.py
 
 
-class DormantRules(IntEnum):
-    ACTIVE = 60
-    INACTIVE = 180
+class DormantState(Enum):
+    UNKNOWN = "unknown"
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+    DORMANT = "dormant"
+    NEVER_USED = "never used"
 
 
 class DormantResults:
 
-    def __init__(self, name: str):
-        self.active_users = 0
-        self.inactive_users = 0
-        self.dormant_users = 0
-        self.never_used_users = 0
+    def __init__(self, states: list):
+        self.active_users = states.count(DormantState.ACTIVE)
+        self.inactive_users = states.count(DormantState.INACTIVE)
+        self.dormant_users = states.count(DormantState.DORMANT)
+        self.never_used_users = states.count(DormantState.NEVER_USED)
+        self.unknown = states.count(DormantState.UNKNOWN)
 
     def __repr__(self):
-        return f'active_users:        {self.active_users!r}\t' \
-               f'inactive_users:      {self.inactive_users!r}\t' \
-               f'dormant_users:       {self.dormant_users!r}\t' \
-               f'never_used_users:    {self.never_used_users!r}'
+        from texttable import Texttable
+        table = Texttable(max_width=80)
+        table.set_cols_width([40, 40])
+        table.header(['Status', 'Count'])
+        table.set_deco(table.BORDER | Texttable.HEADER | Texttable.VLINES | Texttable.HLINES)
+        table.add_row([DormantState.ACTIVE.value, self.active_users])
+        table.add_row([DormantState.INACTIVE.value, self.inactive_users])
+        table.add_row([DormantState.DORMANT.value, self.dormant_users])
+        table.add_row([DormantState.NEVER_USED.value, self.never_used_users])
+        table.add_row([DormantState.UNKNOWN.value, self.unknown])
+        return f'\n + {table.draw()} + \n'
 
 
 class AWSKey(NamedTuple):
@@ -48,11 +59,12 @@ class IAMUser:
     def __init__(self, name: str):
         self.username = name
         self.keys = []
+        self.status = DormantState.UNKNOWN
 
     def key_count(self):
         return len(self.keys)
 
-    def get_dormant_status(self):
+    def set_dormant_status(self):
         """
         Only dormant if both AWS IAM User key IDs have not been used
         Has to check if a user has 1 or 2 access keys
@@ -61,25 +73,24 @@ class IAMUser:
         for key in self.keys:
             # handle case where AWS IAM account has a single key with no Used Date
             if key.last_used_date is None and len(self.keys) == 1:
-                return "Never used"
+                self.status = DormantState.NEVER_USED
+                return
             # handle case where a Key has no Used Date but has multiple keys ( a common case, when 1 key is back-up )
             if key.last_used_date is None and len(self.keys) == 2:
                 continue
             days_since_today = datetime.today() - key.last_used_date.replace(tzinfo=None)
-            if days_since_today.days < DormantRules.ACTIVE:
-                return "Active"
-            elif days_since_today.days < DormantRules.INACTIVE:
-                return "Inactive"
-        return "Dormant"
+            if days_since_today.days < 60:
+                self.status = DormantState.ACTIVE
+                return
+            elif days_since_today.days < 120:
+                self.status = DormantState.INACTIVE
+                return
+        self.status = DormantState.DORMANT
 
-    def __repr__(self):
-        return f'IAM user:       {self.username!r}\t' \
-               f'Key count:      {self.key_count()!r}\t' \
-               f'Dormant status: {self.get_dormant_status()!r}'
-
-
-class AccessKey:
-    pass
+    # def __repr__(self):
+    #     return f'IAM user:       {self.username!r}\t' \
+    #            f'Key count:      {self.key_count()!r}\t' \
+    #            f'Dormant status: {self.status.value!r}'
 
 
 def rm_find_dormant_iam_keys():
@@ -89,6 +100,7 @@ def rm_find_dormant_iam_keys():
             aws iam get-access-key-last-used
     """
     iam_users = []
+    summary_data = []
     try:
         iam = boto3.client('iam')
         # get list of users from resp dict. Default maxItems is 100.
@@ -109,15 +121,17 @@ def rm_find_dormant_iam_keys():
                     access_key_id = keys.get("AccessKeyId", {})
                     last_access_date_dict = iam.get_access_key_last_used(AccessKeyId=access_key_id)
                     last_access_date = last_access_date_dict.get('AccessKeyLastUsed', {}).get('LastUsedDate', None)
-                    key_to_add = key_tuple(key_id=access_key_id, last_used_date=last_access_date)
+                    key_to_add = AWSKey(key_id=access_key_id, last_used_date=last_access_date)
                     user.keys.append(key_to_add)
 
+                user.set_dormant_status()
                 iam_users.append(user)
+                summary_data.append(user.status)
                 bar.next()
         bar.finish()
         rm_print_iam_users(iam_users)
-        logging.info(f'dormant_users:   ')
-        logging.info(f'never used:      ')
+        results = DormantResults(summary_data)
+        print(results)
 
     except ClientError as e:
         logging.error(e)
@@ -131,7 +145,7 @@ def rm_print_iam_users(users: list):
     table.header(['IAM User', 'Keys', 'Status'])
     table.set_deco(table.BORDER | Texttable.HEADER | Texttable.VLINES | Texttable.HLINES)
     for iam_user in users:
-        table.add_row([iam_user.username, iam_user.key_count(), iam_user.get_dormant_status()])
+        table.add_row([iam_user.username, iam_user.key_count(), iam_user.status.value])
     print("\n" + table.draw() + "\n")
 
 
