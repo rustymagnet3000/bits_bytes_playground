@@ -1,5 +1,6 @@
 import logging
 from enum import IntEnum
+from texttable import Texttable
 import boto3
 from botocore.exceptions import ClientError
 from datetime import datetime
@@ -10,9 +11,8 @@ from datetime import datetime
 
 
 class DormantRules(IntEnum):
-    ACTIVE = 90
+    ACTIVE = 60
     INACTIVE = 180
-    DORMANT = 365
 
 
 class IAMUser:
@@ -20,7 +20,7 @@ class IAMUser:
         self.username = name
         self.keys = []
 
-    def _key_count(self):
+    def key_count(self):
         return len(self.keys)
 
     def _get_dormant_status(self):
@@ -38,8 +38,8 @@ class IAMUser:
         return "Dormant"
 
     def __repr__(self):
-        return f'IAM user:       {self.username!r}\n' \
-               f'Key count:      {self._key_count()!r}\n' \
+        return f'IAM user:       {self.username!r}\t' \
+               f'Key count:      {self.key_count()!r}\t' \
                f'Dormant status: {self._get_dormant_status()!r}'
 
 
@@ -71,8 +71,15 @@ def rm_find_dormant_iam_keys():
                     last_access_date = last_access_date_dict.get('AccessKeyLastUsed', {}).get('LastUsedDate', None)
                     user.keys.append((access_key_id, last_access_date))
                 users_and_results.append(user)
+
+        table = Texttable(max_width=200)
+        table.set_cols_width([20, 10, 20])
+        table.header(['IAM User', 'Keys', 'Status'])
+        table.set_deco(table.BORDER | Texttable.HEADER | Texttable.VLINES | Texttable.HLINES)
         for iam_user in users_and_results:
-            print(iam_user)
+            table.add_row([iam_user.username, iam_user.key_count(), iam_user._get_dormant_status()])
+
+        print("\n" + table.draw() + "\n")
 
     except ClientError as e:
         logging.error(e)
