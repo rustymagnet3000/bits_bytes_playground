@@ -1,15 +1,15 @@
 import logging
-from enum import Enum
-from dateutil.parser import parse
+from enum import IntEnum
 import boto3
 from botocore.exceptions import ClientError
+from datetime import datetime, timedelta
 
 # Set environment variables:
 #   AWS_PROFILE=default
 #   AWS_DEFAULT_REGION=......
 
 
-class DormantRules(Enum):
+class DormantRules(IntEnum):
     ACTIVE = 90
     INACTIVE = 180
     DORMANT = 365
@@ -28,17 +28,17 @@ class IAMUser:
         Only dormant if both keys have not been used
         """
         for key in self.keys:
-            print(key)
-        return "dormant"
+            days_since_today = datetime.today() - key[1].replace(tzinfo=None)
+            if days_since_today.days < DormantRules.ACTIVE:
+                return "Active"
+            elif days_since_today.days < DormantRules.INACTIVE:
+                return "Inactive"
+        return "Dormant"
 
     def __repr__(self):
         return f'IAM user:       {self.username!r}\n' \
                f'Key count:      {self._key_count()!r}\n' \
                f'Dormant status: {self._get_dormant_status()!r}'
-
-    def _pretty_date(self):
-        cleaned_date = parse(date_text)
-        return f'{cleaned_date:%d-%m-%Y\t%H:%M%p}'
 
 
 def rm_find_dormant_iam_keys():
