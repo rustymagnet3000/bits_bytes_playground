@@ -2,7 +2,7 @@ import logging
 from enum import IntEnum
 import boto3
 from botocore.exceptions import ClientError
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # Set environment variables:
 #   AWS_PROFILE=default
@@ -26,6 +26,8 @@ class IAMUser:
     def _get_dormant_status(self):
         """
         Only dormant if both keys have not been used
+        Has to check if a user has 1 or 2 access keys
+        The "active" status of a Key is not considered
         """
         for key in self.keys:
             days_since_today = datetime.today() - key[1].replace(tzinfo=None)
@@ -44,10 +46,8 @@ class IAMUser:
 def rm_find_dormant_iam_keys():
     """
         Finds unused credentials similar to CLI commands:
-            aws iam list-access-keys          / ListAccessKeys
-            aws iam get-access-key-last-used  / GetAccessKeyLastUsed
-        Has to check if a user has 1 or 2 access keys
-        Check each key is "active"
+            aws iam list-access-keys
+            aws iam get-access-key-last-used
     """
     users_and_results = []
     try:
