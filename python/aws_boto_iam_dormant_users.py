@@ -20,16 +20,20 @@ class IAMUser:
         self.username = name
         self.keys = []
 
-    def key_count(self):
+    def _key_count(self):
         return len(self.keys)
 
+    def _pretty_keys(self):
+        return 'pretty keys'
+
     def __repr__(self):
-        return f'IAM user: {self.username!r}\tKey count:{self.key_count()!r}'
+        return f'IAM user: {self.username!r}\t' \
+               f'Key count:{self._key_count()!r}' \
+               f'Key keys:{self.keys!r}'
 
-
-def rm_pretty_date(date_text):
-    cleaned_date = parse(date_text)
-    return f'{cleaned_date:%d-%m-%Y\t%H:%M%p}'
+    def _pretty_date(self):
+        cleaned_date = parse(date_text)
+        return f'{cleaned_date:%d-%m-%Y\t%H:%M%p}'
 
 
 def rm_find_dormant_iam_keys():
@@ -58,7 +62,9 @@ def rm_find_dormant_iam_keys():
                 access_keys = response.get("AccessKeyMetadata", {})
                 for keys in access_keys:
                     access_key_id = keys.get("AccessKeyId", {})
-                    user.keys.append(access_key_id)
+                    last_access_date_dict = iam.get_access_key_last_used(AccessKeyId=access_key_id)
+                    last_access_date = last_access_date_dict.get('AccessKeyLastUsed', {}).get('LastUsedDate', None)
+                    user.keys.append((access_key_id, last_access_date))
                 print(user)
 
     except ClientError as e:
