@@ -5,6 +5,7 @@ import boto3
 from botocore.exceptions import ClientError
 from datetime import datetime
 from progress.bar import Bar
+from collections import Counter
 
 # in a big AWS environment, this can take ~1 minute to run with 200-300 IAM users
 # Added a progress bar to avoid extra logging + making to clear that script is still in process
@@ -28,11 +29,7 @@ class DormantState(Enum):
 class DormantResults:
 
     def __init__(self, states: list):
-        self.active_users = states.count(DormantState.ACTIVE)
-        self.inactive_users = states.count(DormantState.INACTIVE)
-        self.dormant_users = states.count(DormantState.DORMANT)
-        self.never_used_users = states.count(DormantState.NEVER_USED)
-        self.unknown = states.count(DormantState.UNKNOWN)
+        self.summary = Counter(states)
 
     def __repr__(self):
         from texttable import Texttable
@@ -40,12 +37,9 @@ class DormantResults:
         table.set_cols_width([20, 20])
         table.header(['Status', 'Count'])
         table.set_deco(table.BORDER | Texttable.HEADER | Texttable.VLINES | Texttable.HLINES)
-        table.add_row([DormantState.ACTIVE.value, self.active_users])
-        table.add_row([DormantState.INACTIVE.value, self.inactive_users])
-        table.add_row([DormantState.DORMANT.value, self.dormant_users])
-        table.add_row([DormantState.NEVER_USED.value, self.never_used_users])
-        table.add_row([DormantState.UNKNOWN.value, self.unknown])
-        return f'\n + {table.draw()} + \n'
+        for row in self.summary.items():
+            table.add_row([row[0].value, row[1]])
+        return f'{table.draw()}'
 
 
 class AWSKey(NamedTuple):
