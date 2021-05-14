@@ -26,22 +26,6 @@ class DormantState(Enum):
     NEVER_USED = "never used"
 
 
-class DormantResults:
-
-    def __init__(self, states: list):
-        self.summary = Counter(states)
-
-    def __repr__(self):
-        from texttable import Texttable
-        table = Texttable(max_width=80)
-        table.set_cols_width([20, 20])
-        table.header(['Status', 'Count'])
-        table.set_deco(table.BORDER | Texttable.HEADER | Texttable.VLINES | Texttable.HLINES)
-        for row in self.summary.items():
-            table.add_row([row[0].value, row[1]])
-        return f'{table.draw()}'
-
-
 class AWSKey(NamedTuple):
     """A named tuple to make checking for the date of an AWS Access Key clear vs key[0]"""
     key_id: str
@@ -97,7 +81,7 @@ def rm_find_dormant_iam_keys():
             aws iam get-access-key-last-used
     """
     iam_users = []
-    summary_data = []
+    summary_states = []
     try:
         iam = boto3.client('iam')
         # get list of users from resp dict. Default maxItems is 100.
@@ -123,12 +107,13 @@ def rm_find_dormant_iam_keys():
 
                 user.set_dormant_status()
                 iam_users.append(user)
-                summary_data.append(user.status)
+                summary_states.append(user.status)
                 bar.next()
         bar.finish()
         rm_print_iam_users(iam_users)
-        results = DormantResults(summary_data)
-        print(results)
+        summary = Counter(summary_states)
+        for key, value in summary.items():
+            print(key.value, value)
 
     except ClientError as e:
         logging.error(e)
