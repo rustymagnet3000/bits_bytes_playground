@@ -31,10 +31,26 @@ export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
 ```
 
-#### Use
+#### Install dependencies ( and sub-dependencies ) and lock file
 
-```bash
-pipenv shell
-cat Pipfile   
-```
+`pipenv install`
 
+#### Activate
+
+`pipenv shell`
+
+#### Review dependency tree
+
+`pipenv graph`
+
+#### Check for security updates
+
+`pipenv check`
+
+#### Check it worked
+
+`which python3`
+
+#### Deactivate
+
+`exit`
