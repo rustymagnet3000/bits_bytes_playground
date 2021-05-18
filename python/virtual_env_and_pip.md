@@ -1,56 +1,31 @@
-# Python3 virtual environment and dependencies with pipenv
+# Python3 virtualenv + pip
 
-- You no longer need to use pip and virtualenv separately.
-- Hashes are used everywhere, always. Security. Automatically expose security vulnerabilities.
-- Give insight into dependency graph (`pipenv graph`)
-
-#### Install
-
-`python3 -m pip install --user pipenv`
-
-#### Where
+##### Package Manager ( pip )
 
 ```bash
-python3 -m site --user-base
-# /Users/foobar/Library/Python/3.9
-ls /Users/bobbyy/Library/Python/3.9/bin/pipenv
+python3 -m pip install --user --upgrade pip
+python3 -m pip --version
 ```
 
-#### Set bash/zsh profile
+##### Create and Activate Virtual Environment
 
 ```bash
-echo -n 'export PATH=/Users/bobbyy/Library/Python/3.9/bin:$PATH' >> ~/.zshrc
-echo -n 'PIPENV_IN_PROJECT_=1' >> ~/.zshrc
+python3 -m pip install --user virtualenv
+python3 -m venv ydvenv
+source ydvenv/bin/activate 		#activate virtual environment
+pip3 install -r requirements.txt
 ```
 
-If you hit `Warning: the environment variable LANG is not set!` then add this to the terminal profile:
+##### Check virtual environment pointing to correct Python
 
 ```bash
-export LANG="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
-export LC_CTYPE="en_US.UTF-8"
+▶ source ~/ydvenv/bin/activate    
+(ydvenv)
+which python
 ```
 
-#### Install dependencies ( and sub-dependencies ) and lock file
+##### Deactive Virtual Environment
 
-`pipenv install`
-
-#### Activate
-
-`pipenv shell`
-
-#### Review dependency tree
-
-`pipenv graph`
-
-#### Check for security updates
-
-`pipenv check`
-
-#### Check it worked
-
-`which python3`
-
-#### Deactivate
-
-`exit`
+```bash
+deactivate
+```
