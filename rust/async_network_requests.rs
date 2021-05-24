@@ -1,8 +1,13 @@
 /*
-I had to use v1.6.0 of tokio to avoid "thread 'main' panicked at 'there is no reactor running, must be called from the context of a Tokio 1.x runtime' ""
+https://rust-lang-nursery.github.io/rust-cookbook/web/clients/requests.html
+
+Used v1.6.0 of tokio:
+ to avoid "thread 'main' panicked at 'there is no reactor running, must be called from the context of a Tokio 1.x runtime' ""
+
+You can find if any sub depedencies are required using:
+    cargo tree -d
+
 [dependencies]
-error-chain = "0.12.4"
-reqwest = { version = "0.11.3", features = ["blocking"] }
 tokio = { version = "1.6.0", features = ["full"] }
  */
 
