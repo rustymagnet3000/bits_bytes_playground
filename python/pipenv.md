@@ -1,4 +1,8 @@
-# Python3 virtual environment and dependencies with pipenv
+# Python3
+
+## pipenv DIED Dec 2020
+
+### Python3 virtual environment and dependencies with pipenv
 
 - You no longer need to use pip and virtualenv separately.
 - Hashes are used everywhere, always. Security. Automatically expose security vulnerabilities.
@@ -54,3 +58,7 @@ export LC_CTYPE="en_US.UTF-8"
 #### Deactivate
 
 `exit`
+
+#### Remove virtual environmen
+
+`pipenv --rm`
