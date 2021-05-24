@@ -6,6 +6,8 @@ error-chain = "0.12.4"
 reqwest = { version = "0.11.3", features = ["blocking"] }
 
 NOTE -> blocking is an Optional feature, so it has to be explicitly added to the Cargo.toml file
+https://docs.rs/reqwest/0.10.0-alpha.2/reqwest/blocking/index.html#optional
+https://stackoverflow.com/questions/58906965/could-not-find-blocking-in-reqwest
 */
 
 use error_chain::error_chain;
