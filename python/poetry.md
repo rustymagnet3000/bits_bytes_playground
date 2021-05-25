@@ -6,6 +6,13 @@
 
 `curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3`
 
+#### PyCharm
+
+```bash
+# add Poetry plug-in
+# create new Interpreter from Poetry
+```
+
 #### Set bash/zsh profile
 
 < `export PATH="$HOME/.poetry/bin:$PATH"` not required >
