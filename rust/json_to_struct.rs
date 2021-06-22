@@ -2,8 +2,6 @@ extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
 
-// https://www.youtube.com/watch?v=hIi_UlyIPMg
-
 #[derive(Serialize, Deserialize)]
 struct Person {
     name: String,
@@ -12,6 +10,7 @@ struct Person {
 }
 
 fn main() {
+
     let json_str = r#"
         {
             "name": "foobar",
@@ -20,14 +19,17 @@ fn main() {
         }
     "#;
 
-    let res = serde_json::from_str(json_str);
 
-    if res.is_ok(){
-        let p: Person = res.unwrap();
-        println!("Name is: {}", p.name);
-        println!("VIP: {}", p.vip);
-    } else {
-        println!("Json parsing failed");
-    }
+    /*
+    Change a field in the json_str to cause this error:
+        thread 'main' panicked at 'Problem decoding: Error("missing field `vip`", line: 6, column: 9)',
+    */
+        
+    let p: Person = match serde_json::from_str (json_str) {
+        Ok (p) => p,
+        Err (e) => { panic!("Problem decoding: {:?}", e) },
+    };
+
+    println!("Name is: {}", p.name);
+    println!("VIP: {}", p.vip);
 }
-
