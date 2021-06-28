@@ -22,7 +22,14 @@ fn main() {
 
 pub fn check (hm: &HashMap<String, i32>, name: &str){
     match hm.get(&String::from(name)) {
-        Some(&n) => println!("Value: {}", n),
+        Some(&n) => println!("[*]value: {}", n),
         _ => println!("[!]no match"),       // if None
     }
 }
+
+/*
+    Alice:77
+    Bob:66
+    [*]value: 66
+    [!]no match
+*/
