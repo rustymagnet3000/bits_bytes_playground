@@ -4,30 +4,31 @@ extern crate serde_derive;
 
 #[derive(Serialize, Deserialize)]
 struct Person {
+    #[serde(rename = "fullName")]
     name: String,
     age: u32,
-    vip: bool
+    vip: bool,
 }
 
 fn main() {
-
     let json_str = r#"
         {
-            "name": "foobar",
+            "fullName": "foobar",
             "age": 99,
             "vip": true
         }
     "#;
 
-
     /*
     Change a field in the json_str to cause this error:
         thread 'main' panicked at 'Problem decoding: Error("missing field `vip`", line: 6, column: 9)',
     */
-        
-    let p: Person = match serde_json::from_str (json_str) {
-        Ok (p) => p,
-        Err (e) => { panic!("Problem decodingq: {:?}", e) },
+
+    let p: Person = match serde_json::from_str(json_str) {
+        Ok(p) => p,
+        Err(e) => {
+            panic!("Problem decoding: {:?}", e)
+        }
     };
 
     println!("Name is: {}", p.name);
