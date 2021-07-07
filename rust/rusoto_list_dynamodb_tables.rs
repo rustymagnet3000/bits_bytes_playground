@@ -5,6 +5,9 @@ extern crate rusoto_dynamodb;
     Active credential set:      cat ~/.aws/credentials
     export AWS_PROFILE=rm_rusoto_demo
     AWS_REGION set in code
+
+    https://www.rusoto.org/futures.html
+    .sync() is a synchronous, blocking call
 */
 
 use std::default::Default;
