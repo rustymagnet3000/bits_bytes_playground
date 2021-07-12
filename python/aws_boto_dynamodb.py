@@ -4,6 +4,7 @@ from botocore.exceptions import ClientError
 import logging
 import json
 from decimal import Decimal
+import time
 
 
 def rm_fill_seed_data(table_name: str):
@@ -75,7 +76,9 @@ def rm_list_items_in_dynamodb_table(table_name: str, param: str):
         )
         items = response['Items']
         for item in items:
-            print(item)
+            epoch_time = int(item.get('info', 0).get('info_timestamp', 0))
+            readable_time = time.ctime(epoch_time)
+            print(f"Device ID: {item.get('device_id', 'Not found')}\t\t{readable_time}")
 
     except ClientError as e:
         logging.error(e)
