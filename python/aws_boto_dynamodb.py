@@ -2,10 +2,8 @@ import boto3
 from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 import logging
-
-# Set environment variables:
-#   AWS_PROFILE=default
-#   AWS_DEFAULT_REGION=......
+import json
+from decimal import Decimal
 
 
 def rm_fill_seed_data(table_name: str):
@@ -14,6 +12,14 @@ def rm_fill_seed_data(table_name: str):
     :type table_name: object
     :return: None
     """
+    with open("seed_data.json") as json_file:
+        device_list = json.load(json_file, parse_float=Decimal)
+
+    dynamodb = boto3.resource('dynamodb', endpoint_url="http://localhost:8000")
+    devices_table = dynamodb.Table(table_name)
+    for device in device_list:
+        print(f"Loading:{device['device_id']}\t{device['info']['info_timestamp']}")
+        devices_table.put_item(Item=device)
 
 
 def rm_create_devices_table(table_name: str):
@@ -39,7 +45,6 @@ def rm_create_devices_table(table_name: str):
         AttributeDefinitions=[
             {
                 'AttributeName': 'device_id',
-                # AttributeType defines the data type. 'S' is string type and 'N' is number type
                 'AttributeType': 'S'
             },
             {
@@ -48,15 +53,14 @@ def rm_create_devices_table(table_name: str):
             },
         ],
         ProvisionedThroughput={
-            # ReadCapacityUnits set to 10 strongly consistent reads per second
             'ReadCapacityUnits': 10,
-            'WriteCapacityUnits': 10  # WriteCapacityUnits set to 10 writes per second
+            'WriteCapacityUnits': 10
         }
     )
     print("Status:", table.table_status)
 
 
-def rm_list_items_in_dynamodb_table(table_name: str):
+def rm_list_items_in_dynamodb_table(table_name: str, param: str):
     """
     Calls out and queries a dynamodb table name for Items that match the Partition Key
     :return: None
@@ -67,7 +71,7 @@ def rm_list_items_in_dynamodb_table(table_name: str):
         table = dynamodb.Table(table_name)
         logging.info(f'[*]Found {table.item_count} items in table {table_name}')
         response = table.query(
-            KeyConditionExpression=Key('device_id').eq("Alice")
+            KeyConditionExpression=Key('device_id').eq(param)
         )
         items = response['Items']
         for item in items:
@@ -81,5 +85,6 @@ def rm_list_items_in_dynamodb_table(table_name: str):
 if __name__ == '__main__':
     table_name = 'DELETEme'
     logging.getLogger().setLevel(logging.INFO)
-    rm_list_items_in_dynamodb_table(table_name)
     # rm_create_devices_table(table_name)
+    # rm_fill_seed_data(table_name)
+    rm_list_items_in_dynamodb_table(table_name, '10001')
