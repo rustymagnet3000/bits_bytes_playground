@@ -31,8 +31,8 @@ if __name__ == '__main__':
     data_banner()
     print(animal_df.value_counts(normalize=True))
 
-    data_banner()
-    my_top_animals = animal_df.value_counts().nlargest(3).index
-    animal_df_new = animal_df.where(animal_df.isin(my_top_animals), other='other animal')
-    print(animal_df_new.value_counts())
+    # Only show Animals where count is greater than 3
+    print(animal_df.value_counts().loc[lambda x: x > 3])
 
+    # Sort and op take top three rows
+    print(animal_df.value_counts(ascending=True).head(3))
