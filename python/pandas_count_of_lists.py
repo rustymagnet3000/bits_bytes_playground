@@ -12,6 +12,10 @@ if __name__ == '__main__':
                    ]
 
     animal_df = pd.DataFrame(animal_list)
+
+    # Count values
+    animal_df.count()
+
     data_banner()
     print(animal_df.info())
 
@@ -58,9 +62,11 @@ if __name__ == '__main__':
     createDate       int64
 
     # Change Epoch Int value to Date
-    items_df['Created_Date'] = pd.to_datetime(items_df['createDate'])
+    items_df['Created_Date'] = pd.to_datetime(items_df['createDate'], unit='s')
 
-
+    # Create a Time Delta
+    items_df['sessionDuration'] = items_df['prettyExpiryDate'].sub(items_df['prettyCreationDate'])
+    items_df['sessionDuration'].values
 
 
 # ********************
